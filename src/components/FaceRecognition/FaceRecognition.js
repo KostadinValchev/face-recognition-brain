@@ -7,13 +7,13 @@ class FaceRecognition extends Component {
         const boxes = []
 
         for (const value of elements) {
-            boxes.push(<div className='bounding-box' style={{ top: value.topRow, right: value.rightCol, bottom: value.bottomRow, left: value.leftCol }}></div>)
+            boxes.push(<div key={value} className='bounding-box' style={{ top: value.topRow, right: value.rightCol, bottom: value.bottomRow, left: value.leftCol }}></div>)
         }
 
         return (
             <div className='center ma'>
                 <div className='absolute mt2'>
-                    <img id='inputimage' src={this.props.urlImage} alt='' width="500px" height="auto" />
+                    <img  id='inputimage' src={this.props.urlImage} alt='' width="500px" height="auto" />
                     {boxes}
                 </div>
             </div>
