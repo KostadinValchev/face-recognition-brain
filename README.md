@@ -1,68 +1,57 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SmartBrain
+> React JS
 
-## Available Scripts
+The ‘Face Detection’ model returns probability scores on the likelihood that the image contains human faces and coordinate locations of where those faces appear with a bounding box. This model is great for anyone building an app that monitors or detects human activity.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+* Clarifai
+* PostgreSQL
+* Express
+* REST API
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Requirements
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+* [node & npm](https://nodejs.org/en/)
+* [git](https://www.robinwieruch.de/git-essential-commands/)
+* [clarifai](https://www.npmjs.com/package/clarifai/)
+* [postgreSQL](https://www.npmjs.com/package/pg/)
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* `Clone this repo`
+* `Register in Clarifai and receive your free API key`
+* `Put your API key in image.js --> apiKey: {API key}`
+* `npm install`
+* `npm start`
+* `Make sure you use postgreSQL instead of mySQL for this code base.`
 
-### `npm run build`
+## Getting Started with Clarifai
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The Clarifai API offers image and video recognition as a service. Whether you have one image or billions, you are only steps away from using artificial intelligence to recognize your visual content.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+The API is built around a simple idea. You send inputs (an image or video) to the service and it returns predictions.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### GET Routes
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* visit http://localhost:3000
+  * /signin
+  * /register
+  * /profile
+  * /profile/1
+  * /image/
+  * /imageurl
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage example
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+_For more examples and usage, please refer to the [faces-detection][faces-detection]._
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Meta
 
-## Learn More
+Kostadin Valchev – ktvalchev@gmail.com
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+[https://github.com/KostadinValchev](https://github.com/KostadinValchev/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+<!-- Markdown link & img dfn's -->
+[faces-detection]: https://faces-detection.herokuapp.com/

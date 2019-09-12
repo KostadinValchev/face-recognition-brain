@@ -1,51 +1,25 @@
 import React, { Component } from "react";
+import HomePage from "./components/Home/homePage";
 import Particles from "react-particles-js";
 import Navigation from "./components/Navigation/Navigation";
-import Logo from "./components/Logo/Logo";
-import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
-import Rank from "./components/Rank/Rank";
-import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
-import Signin from "./components/Signin/Signin";
-import Register from "./components/Register/Register";
-import { css } from "@emotion/core";
-import { RingLoader } from "react-spinners";
+import FaceRecognition from "./components/ModelsRecognition/faceRecognition";
+import FoodRecognition from "./components/ModelsRecognition/foodRecognition";
+import ApparelRecognition from "./components/ModelsRecognition/apparelRecognition";
+import GeneralRecognition from "./components/ModelsRecognition/generalRecognition";
+import ColorRecognition from "./components/ModelsRecognition/colorRecognition";
+import RegisterForm from "./components/Forms/registerForm";
+import LoginForm from "./components/Forms/loginForm";
+import { initialState, calculateFaceLocation, getParticlesOptions } from "./components/common/helpers";
+import { Route, Switch } from "react-router-dom";
+import Profile from "./components/Profile/profile";
+import Footer from "./components/Footer/footer";
 import "./App.css";
-
-const particlesOptions = {
-  particles: {
-    number: {
-      value: 30,
-      density: {
-        enable: true,
-        value_area: 140
-      }
-    },
-    move: {
-      speed: 3
-    }
-  }
-};
-
-const initialState = {
-  input: "",
-  urlImage: "",
-  boxes: [],
-  route: "signin",
-  isSignIn: false,
-  user: {
-    id: "",
-    name: "",
-    email: "",
-    entries: 0,
-    joined: ""
-  },
-  loading: false
-};
+import Models from "./components/Models/models";
 
 class App extends Component {
   constructor() {
     super();
-    this.state = initialState;
+    this.state = initialState();
   }
 
   loadUser = data => {
@@ -55,39 +29,186 @@ class App extends Component {
         name: data.name,
         email: data.email,
         entries: data.entries,
+        faceEntries: data.face_entries,
+        apparelEntries: data.apparel_entries,
+        foodEntries: data.food_entries,
+        generalEntries: data.general_entries,
+        colorEntries: data.color_entries,
         joined: data.joined
       }
     });
-  };
-
-  calculateFaceLocation = data => {
-    const clarifaiFaces = data.outputs[0].data.regions;
-    let faceBoxes = [];
-    const image = document.getElementById("inputimage");
-    const width = Number(image.width);
-    const height = Number(image.height);
-    for (let i = 0; i < clarifaiFaces.length; i++) {
-      const curentBox = clarifaiFaces[i].region_info.bounding_box;
-      const result = {
-        leftCol: curentBox.left_col * width,
-        topRow: curentBox.top_row * height,
-        rightCol: width - curentBox.right_col * width,
-        bottomRow: height - curentBox.bottom_row * height
-      };
-      faceBoxes.push(result);
-    }
-    return faceBoxes;
   };
 
   displayFaceBox = boxes => {
     this.setState({ boxes: boxes });
   };
 
+  displayFoodConcepts = data => {
+    const food = { concepts: data };
+    this.setState({ food });
+  };
+
   onInputChange = event => {
     this.setState({ input: event.target.value });
   };
 
-  handlePictureSubmit = () => {
+  handleFoodPictureSubmit = () => {
+    this.setState({ loading: true });
+    fetch("http://localhost:3000/food", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch("http://localhost:3000/foodimage", {
+            method: "put",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState({ loading: false });
+              this.setState(
+                Object.assign(this.state.user, {
+                  entries: count.entries,
+                  foodEntries: count.food_entries
+                })
+              );
+            })
+            .catch(console.log);
+        }
+        const food = {
+          urlImage: this.state.input,
+          concepts: response.outputs[0].data.concepts
+        };
+        this.setState({ loading: false, food });
+      });
+  };
+
+  handleGeneralPictureSubmit = () => {
+    this.setState({ loading: true });
+    fetch("http://localhost:3000/general", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch("http://localhost:3000/generalimage", {
+            method: "put",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState({ loading: false });
+              this.setState(
+                Object.assign(this.state.user, {
+                  entries: count.entries,
+                  generalEntries: count.general_entries
+                })
+              );
+            })
+            .catch(console.log);
+        }
+        const general = {
+          urlImage: this.state.input,
+          concepts: response.outputs[0].data.concepts
+        };
+        this.setState({ loading: false, general });
+      });
+  };
+
+  handleApparelPictureSubmit = () => {
+    this.setState({ loading: true });
+    fetch("http://localhost:3000/apparel", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch("http://localhost:3000/apparelimage", {
+            method: "put",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState({ loading: false });
+              this.setState(
+                Object.assign(this.state.user, {
+                  entries: count.entries,
+                  apparelEntries: count.apparel_entries
+                })
+              );
+            })
+            .catch(console.log);
+        }
+        const apparel = {
+          urlImage: this.state.input,
+          concepts: response.outputs[0].data.concepts
+        };
+        this.setState({ loading: false, apparel });
+      });
+  };
+
+  handleColorPictureSubmit = () => {
+    this.setState({ loading: true });
+    fetch("http://localhost:3000/color", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch("http://localhost:3000/colorimage", {
+            method: "put",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState({ loading: false });
+              this.setState(
+                Object.assign(this.state.user, {
+                  entries: count.entries,
+                  colorEntries: count.color_entries
+                })
+              );
+            })
+            .catch(console.log);
+        }
+        const colors = {
+          urlImage: this.state.input,
+          colorsData: response
+        };
+        this.setState({ loading: false, colors });
+      });
+  };
+
+  handleFacePictureSubmit = () => {
     this.setState({ loading: true, urlImage: this.state.input });
     fetch("http://localhost:3000/imageurl", {
       method: "post",
@@ -109,11 +230,16 @@ class App extends Component {
             .then(response => response.json())
             .then(count => {
               this.setState({ loading: false });
-              this.setState(Object.assign(this.state.user, { entries: count }));
+              this.setState(
+                Object.assign(this.state.user, {
+                  entries: count.entries,
+                  faceEntries: count.face_entries
+                })
+              );
             })
             .catch(console.log);
         }
-        this.displayFaceBox(this.calculateFaceLocation(response));
+        this.displayFaceBox(calculateFaceLocation(response));
       })
       .catch(err => console.log(err));
   };
@@ -128,47 +254,128 @@ class App extends Component {
   };
 
   render() {
-    const { isSignIn, boxes, urlImage, route, loading } = this.state;
-    const override = css`
-      display: block;
-      margin: 0 auto;
-      border-color: red;
-    `;
+    const { isSignIn, boxes, urlImage, loading, titles } = this.state;
     return (
       <div className="App">
-        <Particles className="particles" params={particlesOptions} />
+        <Particles className="particles" params={getParticlesOptions()} />
         <Navigation isSignedIn={isSignIn} onRouteChange={this.onRouteChange} />
-        {route === "home" ? (
-          <div>
-            <Logo />
-            <Rank
-              name={this.state.user.name}
-              entries={this.state.user.entries}
-            />
-            <ImageLinkForm
-              onInputChange={this.onInputChange}
-              onPictureSubmit={this.handlePictureSubmit}
-              loading={loading}
-            />
-            <div className="sweet-loading" style={{ marginTop: 20 }}>
-              <RingLoader
-                css={override}
-                sizeUnit={"px"}
-                size={100}
-                color={"#1B1C1B"}
+        <Switch>
+          <Route
+            path="/face"
+            render={props => (
+              <FaceRecognition
+                name={this.state.user.name}
+                title={titles.face}
+                entries={this.state.user.entries}
+                boxes={boxes}
+                urlImage={urlImage}
                 loading={loading}
+                onInputChange={this.onInputChange}
+                onPictureSubmit={this.handleFacePictureSubmit}
+                {...props}
               />
-            </div>
-            <FaceRecognition boxes={boxes} urlImage={urlImage} />
-          </div>
-        ) : route === "signin" ? (
-          <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-        ) : (
-          <Register
-            loadUser={this.loadUser}
-            onRouteChange={this.onRouteChange}
+            )}
           />
-        )}
+          <Route
+            path="/food"
+            render={props => (
+              <FoodRecognition
+                userId={this.state.user.id}
+                title={titles.food}
+                urlImage={this.state.food.urlImage}
+                concepts={this.state.food.concepts}
+                loading={loading}
+                onInputChange={this.onInputChange}
+                onFoodPictureSubmit={this.handleFoodPictureSubmit}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/apparel"
+            render={props => (
+              <ApparelRecognition
+                userId={this.state.user.id}
+                title={titles.apparel}
+                urlImage={this.state.apparel.urlImage}
+                concepts={this.state.apparel.concepts}
+                loading={loading}
+                onInputChange={this.onInputChange}
+                onApparelPictureSubmit={this.handleApparelPictureSubmit}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/general"
+            render={props => (
+              <GeneralRecognition
+                userId={this.state.user.id}
+                title={titles.general}
+                urlImage={this.state.general.urlImage}
+                concepts={this.state.general.concepts}
+                loading={loading}
+                onInputChange={this.onInputChange}
+                onApparelPictureSubmit={this.handleGeneralPictureSubmit}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/color"
+            render={props => (
+              <ColorRecognition
+                userId={this.state.user.id}
+                title={titles.color}
+                urlImage={this.state.colors.urlImage}
+                colors={this.state.colors.colorsData}
+                loading={loading}
+                onInputChange={this.onInputChange}
+                onColorPictureSubmit={this.handleColorPictureSubmit}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/profile"
+            render={props => (
+              <Profile
+                userId={this.state.user.id}
+                user={this.state.user}
+                {...props}
+              />
+            )}
+          />
+          <Route path="/models" component={Models} />
+          <Route
+            path="/register"
+            render={props => (
+              <RegisterForm
+                loadUser={this.loadUser}
+                onRouteChange={this.onRouteChange}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/login"
+            render={props => (
+              <LoginForm
+                loadUser={this.loadUser}
+                onRouteChange={this.onRouteChange}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/"
+            exact
+            render={props => (
+              <HomePage userId={this.state.user.id} {...props} />
+            )}
+          />
+        </Switch>
+        <Footer />
       </div>
     );
   }

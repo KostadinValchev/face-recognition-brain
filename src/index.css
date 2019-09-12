@@ -1,6 +1,6 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Courier New", 'Courier New', Courier, monospace;
+  font-family: "Courier New", "Courier New", Courier, monospace;
   background: linear-gradient(to right, rgb(49, 203, 27), rgb(227, 28, 227));
 }

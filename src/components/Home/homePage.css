@@ -1,0 +1,37 @@
+.modelsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.item-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.homeart {
+  display: flex;
+  flex-direction: column;
+}
+
+.homemain {
+  align-self: center;
+}
+
+.measur {
+  max-width: 30rem;
+}
+
+.homebtn-container {
+  display: flex;
+  justify-content: center;
+}
+
+.home-btn {
+    margin: 10px;
+}
+
+#root > div > section {
+  display: grid;
+}

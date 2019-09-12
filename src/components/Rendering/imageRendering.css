@@ -1,0 +1,24 @@
+.food-data-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.food-image-container {
+  display: flex;
+  max-width: 50rem;
+}
+
+.food-items {
+  align-self: flex-start;
+  max-width: 250px;
+  margin-left: 12px;
+}
+
+.food-items-ul {
+  padding-left: 0;
+}
+
+.food-li {
+  margin: 10px;
+}

@@ -1,0 +1,30 @@
+#progressbar {
+  /* background-color: black; */
+  border-radius: 13px;
+  /* (height of inner div) / 2 + padding */
+  padding: 3px;
+  margin: 0.8rem;
+}
+
+#progressbar > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 24rem;
+  border-radius: 10px;
+}
+
+.color-list-container {
+  margin-left: 12px;
+  width: auto;
+}
+
+#percentage {
+  margin-inline-start: auto;
+  font-size: x-large;
+}
+
+.colorBar {
+  padding-left: 1rem;
+}
