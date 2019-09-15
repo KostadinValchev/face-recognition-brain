@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "./form";
 import Loader from "../common/loader";
+import { inputClassName } from "../common/constants";
 
 class RegisterForm extends Form {
   constructor(props) {
@@ -13,8 +14,6 @@ class RegisterForm extends Form {
   }
 
   render() {
-    const className =
-      "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100";
     return (
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-3 center">
         <main className="pa4 black-80">
@@ -22,14 +21,14 @@ class RegisterForm extends Form {
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f2 fw6 ph0 mh0">Register</legend>
               <div className="mt3">
-                {this.renderInput("text", "name", "name", className, "Name")}
+                {this.renderInput("text", "name", "name", inputClassName, "Name")}
               </div>
               <div className="mt3">
                 {this.renderInput(
                   "email",
                   "email",
                   "email",
-                  className,
+                  inputClassName,
                   "Email"
                 )}
               </div>
@@ -38,7 +37,7 @@ class RegisterForm extends Form {
                   "password",
                   "password",
                   "password",
-                  className,
+                  inputClassName,
                   "Password"
                 )}
               </div>

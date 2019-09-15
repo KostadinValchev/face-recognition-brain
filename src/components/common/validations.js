@@ -1,4 +1,9 @@
-var pattern = RegExp("[" + "{}[]-/\\()*+?.%$|".replace(RegExp(".", "g"), "\\$&") + "]", "g");
+import { statusType } from "../common/constants";
+
+var pattern = RegExp(
+  "[" + "{}[]-/\\()*+?.%$|".replace(RegExp(".", "g"), "\\$&") + "]",
+  "g"
+);
 
 export function validate(type, account) {
   const errors = {};
@@ -35,6 +40,29 @@ export function validateProperty({ name, value }) {
   if (name === "confirmPassword") return "Confirm password is required";
 }
 
+export function inputFieldChangeValidations(initErrors, input) {
+  let errors = initErrors;
+  const errorMessage = validateProperty(input);
+  if (errorMessage) errors[input.name] = errorMessage;
+  else delete errors[input.name];
+  return errors;
+}
+
+export function checkIfPasswordIsChanged(data) {
+  const status = {
+    type: "",
+    message: ""
+  };
+  if (data.status === 200) {
+    status.type = statusType.success;
+    status.message = "Password successfully changed";
+  } else {
+    status.type = statusType.failure;
+    status.message = "Wrong or invalid password";
+  }
+  return { loading: false, status };
+}
+
 export function sanitize_for_regex(val) {
-    return val.replace(pattern, "\\$&");
+  return val.replace(pattern, "\\$&");
 }

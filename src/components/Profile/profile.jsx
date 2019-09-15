@@ -5,6 +5,7 @@ import EntryCount from "./entryCount";
 import Loader from "./../common/loader";
 import { Redirect } from "react-router-dom";
 import StatusMessage from "./../common/statusMessage";
+import { inputClassName, buttonClassName } from "../common/constants";
 import "./profile.css";
 
 class Profile extends Form {
@@ -19,9 +20,6 @@ class Profile extends Form {
     errors: {}
   };
   render() {
-    const className =
-      "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100";
-    const classes = "b ph3 pv2 input-reset ba b--black grow pointer f6 dib btn";
     const { loading } = this.state;
     const {
       name,
@@ -48,26 +46,26 @@ class Profile extends Form {
                   "password",
                   "password",
                   "password",
-                  className,
+                  inputClassName,
                   "Old password"
                 )}
                 {this.renderInput(
                   "password",
                   "newPassword",
                   "newPassword",
-                  className,
+                  inputClassName,
                   "New password"
                 )}
                 {this.renderInput(
                   "password",
                   "confirmPassword",
                   "confirmPassword",
-                  className,
+                  inputClassName,
                   "Confirm password"
                 )}
                 <input
-                  onClick={() => this.onSubmitResetPassword(email)}
-                  className={loading ? classes : classes + " bg-transparent"}
+                  onClick={e => this.onSubmitResetPassword(e, email, "reset")}
+                  className={loading ? buttonClassName : buttonClassName + " bg-transparent"}
                   type="button"
                   value="Change password"
                   disabled={loading}

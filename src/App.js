@@ -336,44 +336,11 @@ class App extends Component {
               />
             )}
           />
-          <Route
-            path="/profile"
-            render={props => (
-              <Profile
-                userId={this.state.user.id}
-                user={this.state.user}
-                {...props}
-              />
-            )}
-          />
+          <Route path="/profile" render={props => ( <Profile userId={this.state.user.id} user={this.state.user} {...props} /> )} />
           <Route path="/models" component={Models} />
-          <Route
-            path="/register"
-            render={props => (
-              <RegisterForm
-                loadUser={this.loadUser}
-                onRouteChange={this.onRouteChange}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path="/login"
-            render={props => (
-              <LoginForm
-                loadUser={this.loadUser}
-                onRouteChange={this.onRouteChange}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path="/"
-            exact
-            render={props => (
-              <HomePage userId={this.state.user.id} {...props} />
-            )}
-          />
+          <Route path="/register" render={props => ( <RegisterForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} {...props} /> )} />
+          <Route path="/login" render={props => ( <LoginForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} {...props} /> )} />
+          <Route path="/" exact render={props => ( <HomePage userId={this.state.user.id} {...props} /> )} />
         </Switch>
         <Footer />
       </div>

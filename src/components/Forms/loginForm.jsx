@@ -2,6 +2,8 @@ import React from "react";
 import Form from "./form";
 import Loader from "./../common/loader";
 import StatusMessage from "./../common/statusMessage";
+import { inputClassName } from "../common/constants";
+
 
 class LoginForm extends Form {
   state = {
@@ -13,8 +15,6 @@ class LoginForm extends Form {
   render() {
     const { onRouteChange } = this.props;
     const { loading } = this.state;
-    const className =
-      "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100";
     return (
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-3 center ">
         <main className="pa4 black-80">
@@ -26,7 +26,7 @@ class LoginForm extends Form {
                   "email",
                   "email",
                   "email",
-                  className,
+                  inputClassName,
                   "Email"
                 )}
               </div>
@@ -35,7 +35,7 @@ class LoginForm extends Form {
                   "password",
                   "password",
                   "password",
-                  className,
+                  inputClassName,
                   "Password"
                 )}
               </div>

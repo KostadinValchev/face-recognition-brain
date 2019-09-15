@@ -1,9 +1,19 @@
 import React, { Component } from "react";
 import Input from "./input";
 import Field from "./field";
-import { validate, validateProperty } from "../common/validations";
+import Submiter from "./Submiter";
+import { accountActions, statusType } from "../common/constants";
+import {
+  validate,
+  inputFieldChangeValidations,
+  checkIfPasswordIsChanged
+} from "../common/validations";
 
 class Form extends Component {
+  constructor(props) {
+    super(props);
+    this.submiter = new Submiter();
+  }
   state = {
     account: {
       email: "",
@@ -19,121 +29,72 @@ class Form extends Component {
   };
 
   handleChange = ({ currentTarget: input }) => {
-    let errors = { ...this.state.errors };
-    const errorMessage = validateProperty(input);
-    if (errorMessage) errors[input.name] = errorMessage;
-    else delete errors[input.name];
+    // Prevent Default ????
+    const errors = inputFieldChangeValidations(this.state.errors, input);
     const account = { ...this.state.account };
     account[input.name] = input.value;
     this.setState({ account, errors });
   };
 
-  onSubmitRegister = e => {
+  onSubmitResetPassword = (e, email, type) => {
     e.preventDefault();
-
-    const errors = validate("register", this.state.account);
+    const errors = validate(accountActions.reset, this.state.account);
     this.setState({ errors: errors || {} });
     if (errors) return;
     this.setState({ loading: true });
-    fetch("http://localhost:3000/register", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        email: this.state.account.email,
-        password: this.state.account.password,
-        name: this.state.account.name
-      })
-    })
-      .then(response => response.json())
-      .then(user => {
-        if (user.id) {
-          this.props.loadUser(user);
-          this.setState({ loading: false });
-          // Delete after install routing service
-          this.props.onRouteChange("home");
-          this.props.history.push("/");
-        }
-      });
-  };
-
-  onSubmitSignIn = e => {
-    e.preventDefault();
-    const errors = validate("login", this.state.account);
-    this.setState({ errors: errors || {} });
-    if (errors) return;
-    this.setState({ loading: true });
-    fetch("http://localhost:3000/signin", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        email: this.state.account.email,
-        password: this.state.account.password
-      })
-    })
-      .then(response => response.json())
-      .then(user => {
-        if (user.id) {
-          this.props.loadUser(user);
-          this.setState({ loading: false });
-          this.props.onRouteChange("home");
-          this.props.history.push("/");
-        } else {
-          const status = {
-            type: "failure",
-            message: "Wrong email or password"
-          };
-          this.setState({
-            loading: false,
-            status
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  onSubmitResetPassword = email => {
-    const errors = validate("reset", this.state.account);
-    this.setState({ errors: errors || {} });
-    if (errors) return;
-    this.setState({ loading: true });
-    const { password, newPassword, confirmPassword } = this.state.account;
-    if (newPassword !== confirmPassword) {
+    const account = { email, ...this.state.account };
+    if (account.newPassword !== account.confirmPassword) {
       const status = {
-        type: "failure",
+        type: statusType.failure,
         message: "New password does not match Confirm password"
       };
       this.setState({ loading: false, status });
     } else {
-      fetch("http://localhost:3000/resetpass", {
-        method: "put",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          newPassword: newPassword
-        })
-      })
-        .then(response => {
-          if (response.status === 200) {
-            const status = {
-              type: "success",
-              message: "Password successfully changed"
-            };
-            this.setState({ loading: false, status });
-          } else {
-            const status = {
-              type: "failure",
-              message: "Wrong or invalid password"
-            };
-            this.setState({ loading: false, status });
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.submiter.onSubmitResetPassword(
+        account,
+        this.renderResetPasswordMessage.bind(this),
+        type
+      );
     }
+  };
+
+  renderResetPasswordMessage = data => {
+    const { loading, status } = checkIfPasswordIsChanged;
+    this.setState({ loading, status });
+  };
+
+  handleSigIn = user => {
+    if (user.id) {
+      this.props.loadUser(user);
+      this.setState({ loading: false });
+      this.props.onRouteChange("home");
+      this.props.history.push("/");
+    } else {
+      const status = {
+        type: "failure",
+        message: "Wrong email or password"
+      };
+      this.setState({
+        loading: false,
+        status
+      });
+    }
+  };
+
+  submit = (e, type) => {
+    e.preventDefault();
+    const account = this.state.account;
+    const errors = validate(type, account);
+    this.setState({ errors: errors || {} });
+    if (errors) return;
+    type === accountActions.login
+      ? this.submiter.onSubmitSignIn(account, this.handleSigIn.bind(this), type)
+      : this.submiter.onSubmitRegister(
+          account,
+          this.handleSigIn.bind(this),
+          type
+        );
+    this.setState({ loading: true });
   };
 
   renderField = (label, value, classes) => {
@@ -162,7 +123,9 @@ class Form extends Component {
     return (
       <input
         onClick={
-          action === "login" ? this.onSubmitSignIn : this.onSubmitRegister
+          action === accountActions.login
+            ? e => this.submit(e, accountActions.login)
+            : e => this.submit(e, accountActions.register)
         }
         className={loading ? classes : classes + " bg-transparent"}
         type="button"
