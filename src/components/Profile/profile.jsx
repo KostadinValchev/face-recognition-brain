@@ -5,7 +5,12 @@ import EntryCount from "./entryCount";
 import Loader from "./../common/loader";
 import { Redirect } from "react-router-dom";
 import StatusMessage from "./../common/statusMessage";
-import { inputClassName, buttonClassName } from "../common/constants";
+import {
+  accountData,
+  accountActions,
+  inputClassName,
+  buttonClassName
+} from "../common/constants";
 import "./profile.css";
 
 class Profile extends Form {
@@ -40,32 +45,36 @@ class Profile extends Form {
                 <div className="image">
                   <img src={profileIcon} alt="" />
                 </div>
-                {this.renderField("Name", name, "profile")}
-                {this.renderField("Email", email, "profile")}
+                {this.renderField(accountData.nameLebal, name, accountActions.profile)}
+                {this.renderField(accountData.emailLabel, email, accountActions.profile)}
                 {this.renderInput(
-                  "password",
-                  "password",
-                  "password",
+                  accountData.password,
+                  accountData.password,
+                  accountData.password,
                   inputClassName,
-                  "Old password"
+                  accountData.oldPasswordLabel
                 )}
                 {this.renderInput(
-                  "password",
-                  "newPassword",
-                  "newPassword",
+                  accountData.pas,
+                  accountData.newPassword,
+                  accountData.newPassword,
                   inputClassName,
-                  "New password"
+                  accountData.newPasswordLabel
                 )}
                 {this.renderInput(
-                  "password",
-                  "confirmPassword",
-                  "confirmPassword",
+                  accountData.password,
+                  accountData.confirmPassword,
+                  accountData.confirmPassword,
                   inputClassName,
-                  "Confirm password"
+                  accountData.confirmPasswordLabel
                 )}
                 <input
-                  onClick={e => this.onSubmitResetPassword(e, email, "reset")}
-                  className={loading ? buttonClassName : buttonClassName + " bg-transparent"}
+                  onClick={e => this.onSubmitResetPassword(e, email, accountActions.reset)}
+                  className={
+                    loading
+                      ? buttonClassName
+                      : buttonClassName + " bg-transparent"
+                  }
                   type="button"
                   value="Change password"
                   disabled={loading}

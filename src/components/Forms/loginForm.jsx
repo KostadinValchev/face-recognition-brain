@@ -2,8 +2,11 @@ import React from "react";
 import Form from "./form";
 import Loader from "./../common/loader";
 import StatusMessage from "./../common/statusMessage";
-import { inputClassName } from "../common/constants";
-
+import {
+  accountData,
+  accountActions,
+  inputClassName
+} from "../common/constants";
 
 class LoginForm extends Form {
   state = {
@@ -23,20 +26,20 @@ class LoginForm extends Form {
               <legend className="f2 fw6 ph0 mh0">Sign In</legend>
               <div className="mt3">
                 {this.renderInput(
-                  "email",
-                  "email",
-                  "email",
+                  accountData.email,
+                  accountData.email,
+                  accountData.email,
                   inputClassName,
-                  "Email"
+                  accountData.emailLabel
                 )}
               </div>
               <div className="mv3">
                 {this.renderInput(
-                  "password",
-                  "password",
-                  "password",
+                  accountData.password,
+                  accountData.password,
+                  accountData.password,
                   inputClassName,
-                  "Password"
+                  accountData.passwordLabel
                 )}
               </div>
             </fieldset>
@@ -47,11 +50,16 @@ class LoginForm extends Form {
               />
             )}
             <div className="">
-              <div>{this.renderButton("Login", "login")}</div>
+              <div>
+                {this.renderButton(
+                  accountData.loginLabel,
+                  accountActions.login
+                )}
+              </div>
             </div>
             <div className="lh-copy mt3">
               <p
-                onClick={() => onRouteChange("register")}
+                onClick={() => onRouteChange(accountActions.register)}
                 href="#0"
                 className="f6 link dim black db pointer"
                 disabled={loading}

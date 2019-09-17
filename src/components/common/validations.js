@@ -1,4 +1,13 @@
 import { statusType } from "../common/constants";
+import {
+  accountActions,
+  accountReqMessages,
+  email,
+  password,
+  _name,
+  newPassword,
+  confirmPassword
+} from "./constants";
 
 var pattern = RegExp(
   "[" + "{}[]-/\\()*+?.%$|".replace(RegExp(".", "g"), "\\$&") + "]",
@@ -7,37 +16,40 @@ var pattern = RegExp(
 
 export function validate(type, account) {
   const errors = {};
-  if (type === "login" || type === "register") {
-    if (account.email.trim() === "") errors.email = "Email is required";
-    if (type === "register") {
-      if (account.name.trim() === "") errors.name = "Name is required";
+  if (type === accountActions.login || type === accountActions.register) {
+    if (account.email.trim() === "")
+      errors.email = accountReqMessages.emailRequired;
+    if (type === accountActions.register) {
+      if (account.name.trim() === "")
+        errors.name = accountReqMessages.nameRequired;
     }
   }
-  if (account.password.trim() === "") errors.password = "Password is required";
-  if (type === "reset") {
+  if (account.password.trim() === "")
+    errors.password = accountReqMessages.password;
+  if (type === accountActions.reset) {
     if (account.newPassword.trim() === "")
-      errors.newPassword = "New password is required";
+      errors.newPassword = accountReqMessages.newPassword;
     if (account.confirmPassword.trim() === "")
-      errors.confirmPassword = "Confirm password password is required";
+      errors.confirmPassword = accountReqMessages.confirmPassword;
   }
   return Object.keys(errors).length === 0 ? null : errors;
 }
 
 export function validateProperty({ name, value }) {
-  if (name === "email") {
-    if (value.trim() === "") return "Email is required";
+  if (name === email) {
+    if (value.trim() === "") return accountReqMessages.email;
     //...
   }
-  if (name === "password") {
-    if (value.trim() === "") return "Password is required";
+  if (name === password) {
+    if (value.trim() === "") return accountReqMessages.password;
   }
-  if (name === "name") {
-    if (value.trim() === "") return "Name is required";
+  if (name === _name) {
+    if (value.trim() === "") return accountReqMessages.name;
   }
-  if (name === "newPassword") {
-    if (value.trim() === "") return "New password is required";
+  if (name === newPassword) {
+    if (value.trim() === "") return accountReqMessages.newPassword;
   }
-  if (name === "confirmPassword") return "Confirm password is required";
+  if (name === confirmPassword) return accountReqMessages.confirmPassword;
 }
 
 export function inputFieldChangeValidations(initErrors, input) {
@@ -46,6 +58,20 @@ export function inputFieldChangeValidations(initErrors, input) {
   if (errorMessage) errors[input.name] = errorMessage;
   else delete errors[input.name];
   return errors;
+}
+
+export function checkConfirmPassword(account) {
+  if (account.newPassword !== account.confirmPassword) {
+    return {
+      match: false,
+      data: {
+        type: statusType.failure,
+        message: "New password does not match Confirm password"
+      }
+    };
+  } else {
+    return { match: true };
+  }
 }
 
 export function checkIfPasswordIsChanged(data) {

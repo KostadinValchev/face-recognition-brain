@@ -1,7 +1,11 @@
 import React from "react";
 import Form from "./form";
 import Loader from "../common/loader";
-import { inputClassName } from "../common/constants";
+import {
+  accountData,
+  accountActions,
+  inputClassName
+} from "../common/constants";
 
 class RegisterForm extends Form {
   constructor(props) {
@@ -21,28 +25,39 @@ class RegisterForm extends Form {
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f2 fw6 ph0 mh0">Register</legend>
               <div className="mt3">
-                {this.renderInput("text", "name", "name", inputClassName, "Name")}
+                {this.renderInput(
+                  "text",
+                  accountData.name,
+                  accountData.name,
+                  inputClassName,
+                  accountData.nameLebal
+                )}
               </div>
               <div className="mt3">
                 {this.renderInput(
-                  "email",
-                  "email",
-                  "email",
+                  accountData.email,
+                  accountData.email,
+                  accountData.email,
                   inputClassName,
-                  "Email"
+                  accountData.emailLabel
                 )}
               </div>
               <div className="mv3">
                 {this.renderInput(
-                  "password",
-                  "password",
-                  "password",
+                  accountData.password,
+                  accountData.password,
+                  accountData.password,
                   inputClassName,
-                  "Password"
+                  accountData.passwordLabel
                 )}
               </div>
             </fieldset>
-            <div>{this.renderButton("Register", "register")}</div>
+            <div>
+              {this.renderButton(
+                accountData.registerLabel,
+                accountActions.register
+              )}
+            </div>
             <Loader loading={this.state.loading} />
           </div>
         </main>
