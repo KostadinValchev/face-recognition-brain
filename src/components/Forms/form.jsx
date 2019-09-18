@@ -3,6 +3,7 @@ import Input from "./input";
 import Field from "./field";
 import Submiter from "./Submiter";
 import { accountActions, statusType } from "../common/constants";
+import { statusMessages } from "./FormsConstants";
 import {
   validate,
   inputFieldChangeValidations,
@@ -46,7 +47,7 @@ class Form extends Component {
     if (account.newPassword !== account.confirmPassword) {
       const status = {
         type: statusType.failure,
-        message: "New password does not match Confirm password"
+        message: statusMessages.newPassNotMatchConfirm
       };
       this.setState({ loading: false, status });
     } else {
@@ -71,8 +72,8 @@ class Form extends Component {
       this.props.history.push("/");
     } else {
       const status = {
-        type: "failure",
-        message: "Wrong email or password"
+        type: statusType.failure,
+        message: statusMessages.wrongEmailOrPassword
       };
       this.setState({
         loading: false,

@@ -9,6 +9,13 @@ export const requestActions = {
   delete: "delete"
 };
 
+export const accountActions = {
+  register: "register",
+  login: "login",
+  profile: "profile",
+  reset: "reset"
+};
+
 export const accountData = {
   email: "email",
   password: "password",
@@ -24,11 +31,6 @@ export const accountData = {
   registerLabel: "Register",
   loginLabel: "Login"
 };
-export const email = "email";
-export const password = "password";
-export const _name = "name";
-export const newPassword = "newPassword";
-export const confirmPassword = "confirmPassword";
 
 export const accountReqMessages = {
   email: "Email is required",
@@ -36,15 +38,6 @@ export const accountReqMessages = {
   password: "Password is required",
   newPassword: "New password is required",
   confirmPassword: "Confirm password is required"
-};
-
-export const fetchHeaders = { "Content-type": "application/json" };
-
-export const accountActions = {
-  register: "register",
-  login: "login",
-  profile: "profile",
-  reset: "reset"
 };
 
 export const statusType = {
@@ -55,9 +48,6 @@ export const statusType = {
 export const navigateTo = {
   home: "home"
 };
-
-export const buttonClassName =
-  "b ph3 pv2 input-reset ba b--black grow pointer f6 dib btn";
 
 export const inputClassName =
   "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100";

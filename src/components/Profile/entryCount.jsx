@@ -1,5 +1,6 @@
 import React from "react";
 import Form from "./../Forms/form";
+import { countersLabels, classRightАlignment } from "./profileConstants";
 
 class EntryCount extends Form {
   state = {};
@@ -7,12 +8,12 @@ class EntryCount extends Form {
     const { entries, face, apparel, food, general, colorEntries } = this.props;
     return (
       <div className="right">
-        {this.renderField(entries, "Total Recognition", "right-box")}
-        {this.renderField(face, "Face Recognition", "right-box")}
-        {this.renderField(food, "Food Recognition", "right-box")}
-        {this.renderField(apparel, "Apparel Recognition", "right-box")}
-        {this.renderField(general, "General Recognition", "right-box")}
-        {this.renderField(colorEntries, "Color Recognition", "right-box")}
+        {this.renderField(entries, countersLabels.total, classRightАlignment)}
+        {this.renderField(face, countersLabels.face, classRightАlignment)}
+        {this.renderField(food, countersLabels.food, classRightАlignment)}
+        {this.renderField(apparel, countersLabels.apparel, classRightАlignment)}
+        {this.renderField(general, countersLabels.general, classRightАlignment)}
+        {this.renderField(colorEntries, countersLabels.color, classRightАlignment)}
       </div>
     );
   }

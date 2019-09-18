@@ -1,11 +1,7 @@
 import React from "react";
 import Form from "./form";
 import Loader from "../common/loader";
-import {
-  accountData,
-  accountActions,
-  inputClassName
-} from "../common/constants";
+import { accountActions, accountData, inputClassName } from "../common/constants";
 
 class RegisterForm extends Form {
   constructor(props) {

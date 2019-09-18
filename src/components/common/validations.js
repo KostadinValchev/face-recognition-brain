@@ -1,13 +1,5 @@
 import { statusType } from "../common/constants";
-import {
-  accountActions,
-  accountReqMessages,
-  email,
-  password,
-  _name,
-  newPassword,
-  confirmPassword
-} from "./constants";
+import { accountActions, accountData, accountReqMessages } from "./constants";
 
 var pattern = RegExp(
   "[" + "{}[]-/\\()*+?.%$|".replace(RegExp(".", "g"), "\\$&") + "]",
@@ -36,20 +28,20 @@ export function validate(type, account) {
 }
 
 export function validateProperty({ name, value }) {
-  if (name === email) {
+  if (name === accountData.email) {
     if (value.trim() === "") return accountReqMessages.email;
     //...
   }
-  if (name === password) {
+  if (name === accountData.password) {
     if (value.trim() === "") return accountReqMessages.password;
   }
-  if (name === _name) {
+  if (name === accountData.name) {
     if (value.trim() === "") return accountReqMessages.name;
   }
-  if (name === newPassword) {
+  if (name === accountData.newPassword) {
     if (value.trim() === "") return accountReqMessages.newPassword;
   }
-  if (name === confirmPassword) return accountReqMessages.confirmPassword;
+  if (name === accountData.confirmPassword) return accountReqMessages.confirmPassword;
 }
 
 export function inputFieldChangeValidations(initErrors, input) {

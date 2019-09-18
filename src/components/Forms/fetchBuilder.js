@@ -1,4 +1,5 @@
-import { accountActions, fetchHeaders } from "../common/constants";
+import { fetchHeaders } from "./FormsConstants";
+import { accountActions } from "../common/constants";
 
 export function fetchHelper(action, type, account) {
   const data = {

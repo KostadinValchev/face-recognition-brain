@@ -1,12 +1,8 @@
 import React from "react";
 import Form from "./form";
 import Loader from "./../common/loader";
-import StatusMessage from "./../common/statusMessage";
-import {
-  accountData,
-  accountActions,
-  inputClassName
-} from "../common/constants";
+import StatusMessage from "../common/statusMessage";
+import { accountActions, accountData, inputClassName } from "../common/constants";
 
 class LoginForm extends Form {
   state = {

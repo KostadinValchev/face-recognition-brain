@@ -1,5 +1,5 @@
 import { fetchHelper } from "./fetchBuilder";
-import { requestActions } from "../common/constants";
+import { requestActions } from "./FormsConstants";
 
 class FormRequester {
   get() {}

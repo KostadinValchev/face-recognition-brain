@@ -6,11 +6,11 @@ import Loader from "./../common/loader";
 import { Redirect } from "react-router-dom";
 import StatusMessage from "./../common/statusMessage";
 import {
-  accountData,
   accountActions,
-  inputClassName,
-  buttonClassName
-} from "../common/constants";
+  buttonClassName,
+  changePassLabel
+} from "./profileConstants";
+import { inputClassName, accountData } from "../common/constants";
 import "./profile.css";
 
 class Profile extends Form {
@@ -45,8 +45,16 @@ class Profile extends Form {
                 <div className="image">
                   <img src={profileIcon} alt="" />
                 </div>
-                {this.renderField(accountData.nameLebal, name, accountActions.profile)}
-                {this.renderField(accountData.emailLabel, email, accountActions.profile)}
+                {this.renderField(
+                  accountData.nameLebal,
+                  name,
+                  accountActions.profile
+                )}
+                {this.renderField(
+                  accountData.emailLabel,
+                  email,
+                  accountActions.profile
+                )}
                 {this.renderInput(
                   accountData.password,
                   accountData.password,
@@ -55,7 +63,7 @@ class Profile extends Form {
                   accountData.oldPasswordLabel
                 )}
                 {this.renderInput(
-                  accountData.pas,
+                  accountData.password,
                   accountData.newPassword,
                   accountData.newPassword,
                   inputClassName,
@@ -69,14 +77,16 @@ class Profile extends Form {
                   accountData.confirmPasswordLabel
                 )}
                 <input
-                  onClick={e => this.onSubmitResetPassword(e, email, accountActions.reset)}
+                  onClick={e =>
+                    this.onSubmitResetPassword(e, email, accountActions.reset)
+                  }
                   className={
                     loading
                       ? buttonClassName
                       : buttonClassName + " bg-transparent"
                   }
                   type="button"
-                  value="Change password"
+                  value={changePassLabel}
                   disabled={loading}
                 />
                 {this.state.status.type !== "" && (
