@@ -10,11 +10,12 @@ import ColorRecognition from "./components/ModelsRecognition/colorRecognition";
 import RegisterForm from "./components/Forms/registerForm";
 import LoginForm from "./components/Forms/loginForm";
 import { initialState, calculateFaceLocation, getParticlesOptions } from "./components/common/helpers";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Profile from "./components/Profile/profile";
 import Footer from "./components/Footer/footer";
-import "./App.css";
 import Models from "./components/Models/models";
+import NotFound from './components/NotFound/notFound';
+import "./App.css";
 
 class App extends Component {
   constructor() {
@@ -339,8 +340,10 @@ class App extends Component {
           <Route path="/profile" render={props => ( <Profile userId={this.state.user.id} user={this.state.user} {...props} /> )} />
           <Route path="/models" component={Models} />
           <Route path="/register" render={props => ( <RegisterForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} {...props} /> )} />
+          <Route path="/not-found" component={NotFound} />
           <Route path="/login" render={props => ( <LoginForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} {...props} /> )} />
           <Route path="/" exact render={props => ( <HomePage userId={this.state.user.id} {...props} /> )} />
+          <Redirect to="/not-found" />
         </Switch>
         <Footer />
       </div>
