@@ -1,6 +1,20 @@
-export const signInUrl = "http://localhost:3000/signin";
-export const registerUrl = "http://localhost:3000/register";
-export const resetPasswordUrl = "http://localhost:3000/resetpass";
+export const servicesUrls = {
+  face: "http://localhost:3000/imageurl",
+  food: "http://localhost:3000/food",
+  general: "http://localhost:3000/general",
+  apparel: "http://localhost:3000/apparel",
+  color: "http://localhost:3000/color"
+};
+
+export const countersUrls = {
+  face: "http://localhost:3000/image",
+  food: "http://localhost:3000/foodimage",
+  general: "http://localhost:3000/generalimage",
+  apparel: "http://localhost:3000/apparelimage",
+  color: "http://localhost:3000/colorimage"
+};
+
+export const fetchHeaders = { "Content-type": "application/json" };
 
 export const requestActions = {
   get: "get",

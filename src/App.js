@@ -9,10 +9,15 @@ import GeneralRecognition from "./components/ModelsRecognition/generalRecognitio
 import ColorRecognition from "./components/ModelsRecognition/colorRecognition";
 import RegisterForm from "./components/Forms/registerForm";
 import LoginForm from "./components/Forms/loginForm";
-import { initialState, calculateFaceLocation, getParticlesOptions } from "./components/common/helpers";
+import {
+  initialState,
+  calculateFaceLocation,
+  getParticlesOptions
+} from "./components/common/helpers";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Profile from "./components/Profile/profile";
 import Footer from "./components/Footer/footer";
+import Submiter from "./services/Submiter";
 import Models from "./components/Models/models";
 import NotFound from './components/NotFound/notFound';
 import "./App.css";
@@ -21,6 +26,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = initialState();
+    this.submiter = new Submiter();
   }
 
   loadUser = data => {
@@ -41,12 +47,22 @@ class App extends Component {
   };
 
   displayFaceBox = boxes => {
-    this.setState({ boxes: boxes });
+    const calculatedBoxes = calculateFaceLocation(boxes);
+    this.setState({ loading: false, boxes: calculatedBoxes });
   };
 
   displayFoodConcepts = data => {
     const food = { concepts: data };
     this.setState({ food });
+  };
+
+  incrementCounters = counters => {
+    this.setState(
+      Object.assign(this.state.user, {
+        entries: counters.entries,
+        faceEntries: counters.face_entries
+      })
+    );
   };
 
   onInputChange = event => {
@@ -211,38 +227,13 @@ class App extends Component {
 
   handleFacePictureSubmit = () => {
     this.setState({ loading: true, urlImage: this.state.input });
-    fetch("http://localhost:3000/imageurl", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch("http://localhost:3000/image", {
-            method: "put",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState({ loading: false });
-              this.setState(
-                Object.assign(this.state.user, {
-                  entries: count.entries,
-                  faceEntries: count.face_entries
-                })
-              );
-            })
-            .catch(console.log);
-        }
-        this.displayFaceBox(calculateFaceLocation(response));
-      })
-      .catch(err => console.log(err));
+    this.submiter.handleFacePictureSubmit(
+      this.state.user.id,
+      this.state.input,
+      "face",
+      this.displayFaceBox.bind(this),
+      this.incrementCounters.bind(this)
+    );
   };
 
   onRouteChange = route => {
@@ -337,12 +328,45 @@ class App extends Component {
               />
             )}
           />
-          <Route path="/profile" render={props => ( <Profile userId={this.state.user.id} user={this.state.user} {...props} /> )} />
+          <Route
+            path="/profile"
+            render={props => (
+              <Profile
+                userId={this.state.user.id}
+                user={this.state.user}
+                {...props}
+              />
+            )}
+          />
           <Route path="/models" component={Models} />
-          <Route path="/register" render={props => ( <RegisterForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} {...props} /> )} />
+          <Route
+            path="/register"
+            render={props => (
+              <RegisterForm
+                loadUser={this.loadUser}
+                onRouteChange={this.onRouteChange}
+                {...props}
+              />
+            )}
+          />
           <Route path="/not-found" component={NotFound} />
-          <Route path="/login" render={props => ( <LoginForm loadUser={this.loadUser} onRouteChange={this.onRouteChange} {...props} /> )} />
-          <Route path="/" exact render={props => ( <HomePage userId={this.state.user.id} {...props} /> )} />
+          <Route
+            path="/login"
+            render={props => (
+              <LoginForm
+                loadUser={this.loadUser}
+                onRouteChange={this.onRouteChange}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            path="/"
+            exact
+            render={props => (
+              <HomePage userId={this.state.user.id} {...props} />
+            )}
+          />
           <Redirect to="/not-found" />
         </Switch>
         <Footer />

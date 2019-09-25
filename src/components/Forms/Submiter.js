@@ -1,5 +1,5 @@
 import FormRequester from "./FormRequester";
-import { signInUrl, registerUrl, resetPasswordUrl } from "./../common/constants";
+import { signInUrl, registerUrl, resetPasswordUrl } from "./FormsConstants";
 
 class Submiter {
   constructor() {
