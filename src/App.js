@@ -19,7 +19,7 @@ import Profile from "./components/Profile/profile";
 import Footer from "./components/Footer/footer";
 import Submiter from "./services/Submiter";
 import Models from "./components/Models/models";
-import NotFound from './components/NotFound/notFound';
+import NotFound from "./components/NotFound/notFound";
 import "./App.css";
 
 class App extends Component {
@@ -51,18 +51,12 @@ class App extends Component {
     this.setState({ loading: false, boxes: calculatedBoxes });
   };
 
-  displayFoodConcepts = data => {
-    const food = { concepts: data };
-    this.setState({ food });
+  displayConcepts = concepts => {
+    this.setState({ loading: false, ...concepts[0] });
   };
 
   incrementCounters = counters => {
-    this.setState(
-      Object.assign(this.state.user, {
-        entries: counters.entries,
-        faceEntries: counters.face_entries
-      })
-    );
+    this.setState(Object.assign(this.state.user, counters));
   };
 
   onInputChange = event => {
@@ -71,119 +65,35 @@ class App extends Component {
 
   handleFoodPictureSubmit = () => {
     this.setState({ loading: true });
-    fetch("http://localhost:3000/food", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch("http://localhost:3000/foodimage", {
-            method: "put",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState({ loading: false });
-              this.setState(
-                Object.assign(this.state.user, {
-                  entries: count.entries,
-                  foodEntries: count.food_entries
-                })
-              );
-            })
-            .catch(console.log);
-        }
-        const food = {
-          urlImage: this.state.input,
-          concepts: response.outputs[0].data.concepts
-        };
-        this.setState({ loading: false, food });
-      });
+    this.submiter.handleFoodPictureSubmit(
+      this.state.user.id,
+      this.state.input,
+      "food",
+      this.displayConcepts.bind(this),
+      this.incrementCounters.bind(this)
+    );
   };
 
   handleGeneralPictureSubmit = () => {
     this.setState({ loading: true });
-    fetch("http://localhost:3000/general", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch("http://localhost:3000/generalimage", {
-            method: "put",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState({ loading: false });
-              this.setState(
-                Object.assign(this.state.user, {
-                  entries: count.entries,
-                  generalEntries: count.general_entries
-                })
-              );
-            })
-            .catch(console.log);
-        }
-        const general = {
-          urlImage: this.state.input,
-          concepts: response.outputs[0].data.concepts
-        };
-        this.setState({ loading: false, general });
-      });
+    this.submiter.handleGeneralPictureSubmit(
+      this.state.user.id,
+      this.state.input,
+      "general",
+      this.displayConcepts.bind(this),
+      this.incrementCounters.bind(this)
+    );
   };
 
   handleApparelPictureSubmit = () => {
     this.setState({ loading: true });
-    fetch("http://localhost:3000/apparel", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch("http://localhost:3000/apparelimage", {
-            method: "put",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState({ loading: false });
-              this.setState(
-                Object.assign(this.state.user, {
-                  entries: count.entries,
-                  apparelEntries: count.apparel_entries
-                })
-              );
-            })
-            .catch(console.log);
-        }
-        const apparel = {
-          urlImage: this.state.input,
-          concepts: response.outputs[0].data.concepts
-        };
-        this.setState({ loading: false, apparel });
-      });
+    this.submiter.handleApparelPictureSubmit(
+      this.state.user.id,
+      this.state.input,
+      "apparel",
+      this.displayConcepts.bind(this),
+      this.incrementCounters.bind(this)
+    );
   };
 
   handleColorPictureSubmit = () => {
