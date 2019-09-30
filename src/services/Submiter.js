@@ -97,7 +97,31 @@ class Submiter {
         incrementCounters(result[1]);
       });
   }
-  handleColorPictureSubmit(userId, pictureUrl, type) {}
+  handleColorPictureSubmit(
+    userId,
+    pictureUrl,
+    type,
+    displayConcepts,
+    incrementCounters
+  ) {
+    Promise.all([
+      this.requester.post(pictureUrl, type),
+      this.requester.put(userId, type)
+    ])
+      .then(([colors, counters]) => {
+        return Promise.all([colors.json(), counters.json()]);
+      })
+      .then(result => {
+        const colors = {
+          colors: {
+            urlImage: result[0].imageUrl,
+            colorsData: result[0].colors
+          }
+        };
+        displayConcepts([colors]);
+        incrementCounters(result[1]);
+      });
+  }
   handleCounterSubmit(userId, pictureUrl, type) {
     this.requester.put(pictureUrl, userId, type);
   }

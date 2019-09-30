@@ -98,41 +98,14 @@ class App extends Component {
 
   handleColorPictureSubmit = () => {
     this.setState({ loading: true });
-    fetch("http://localhost:3000/color", {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch("http://localhost:3000/colorimage", {
-            method: "put",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState({ loading: false });
-              this.setState(
-                Object.assign(this.state.user, {
-                  entries: count.entries,
-                  colorEntries: count.color_entries
-                })
-              );
-            })
-            .catch(console.log);
-        }
-        const colors = {
-          urlImage: this.state.input,
-          colorsData: response
-        };
-        this.setState({ loading: false, colors });
-      });
+    this.setState({ loading: true });
+    this.submiter.handleColorPictureSubmit(
+      this.state.user.id,
+      this.state.input,
+      "color",
+      this.displayConcepts.bind(this),
+      this.incrementCounters.bind(this)
+    );
   };
 
   handleFacePictureSubmit = () => {
