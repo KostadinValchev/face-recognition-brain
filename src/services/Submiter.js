@@ -1,125 +1,77 @@
-import Requester from "./Requester";
 class Submiter {
-  constructor() {
-    this.requester = new Requester();
+  constructor(Requester) {
+    this.requester = Requester;
   }
-  handleFacePictureSubmit(
-    userId,
-    pictureUrl,
-    type,
-    displayFaceBox,
-    incrementCounters
-  ) {
-    Promise.all([
-      this.requester.post(pictureUrl, type),
-      this.requester.put(userId, type)
-    ])
-      .then(([faceBoxes, counters]) => {
-        return Promise.all([faceBoxes.json(), counters.json()]);
-      })
+  handleIncrementCounters(userId, type, incrementCounters) {
+    this.requester
+      .put(userId, type)
+      .then(counters => counters.json())
       .then(result => {
-        displayFaceBox(result[0]);
-        incrementCounters(result[1]);
+        incrementCounters(result);
       });
   }
-  handleFoodPictureSubmit(
-    userId,
-    pictureUrl,
-    type,
-    displayConcepts,
-    incrementCounters
-  ) {
-    Promise.all([
-      this.requester.post(pictureUrl, type),
-      this.requester.put(userId, type)
-    ])
-      .then(([foodBoxes, counters]) => {
-        return Promise.all([foodBoxes.json(), counters.json()]);
-      })
+  handleFacePictureSubmit(pictureUrl, type, displayFaceBox) {
+    this.requester
+      .post(pictureUrl, type)
+      .then(faceBoxes => faceBoxes.json())
+      .then(result => {
+        displayFaceBox(result);
+      });
+  }
+  handleFoodPictureSubmit(pictureUrl, type, displayConcepts) {
+    this.requester
+      .post(pictureUrl, type)
+      .then(foodBoxes => foodBoxes.json())
       .then(result => {
         const food = {
           food: {
-            urlImage: result[0].outputs[0].input.data.image.url,
-            concepts: result[0].outputs[0].data.concepts
+            urlImage: result.outputs[0].input.data.image.url,
+            concepts: result.outputs[0].data.concepts
           }
         };
         displayConcepts([food]);
-        incrementCounters(result[1]);
       });
   }
-  handleGeneralPictureSubmit(
-    userId,
-    pictureUrl,
-    type,
-    displayConcepts,
-    incrementCounters
-  ) {
-    Promise.all([
-      this.requester.post(pictureUrl, type),
-      this.requester.put(userId, type)
-    ])
-      .then(([general, counters]) => {
-        return Promise.all([general.json(), counters.json()]);
-      })
+  handleGeneralPictureSubmit(pictureUrl, type, displayConcepts) {
+    this.requester
+      .post(pictureUrl, type)
+      .then(general => general.json())
       .then(result => {
         const general = {
           general: {
-            urlImage: result[0].outputs[0].input.data.image.url,
-            concepts: result[0].outputs[0].data.concepts
+            urlImage: result.outputs[0].input.data.image.url,
+            concepts: result.outputs[0].data.concepts
           }
         };
         displayConcepts([general]);
-        incrementCounters(result[1]);
       });
   }
-  handleApparelPictureSubmit(
-    userId,
-    pictureUrl,
-    type,
-    displayConcepts,
-    incrementCounters
-  ) {
-    Promise.all([
-      this.requester.post(pictureUrl, type),
-      this.requester.put(userId, type)
-    ])
-      .then(([apparel, counters]) => {
-        return Promise.all([apparel.json(), counters.json()]);
-      })
+  handleApparelPictureSubmit(pictureUrl, type, displayConcepts) {
+    this.requester
+      .post(pictureUrl, type)
+      .then(apparel => apparel.json())
       .then(result => {
         const apparel = {
           apparel: {
-            urlImage: result[0].outputs[0].input.data.image.url,
-            concepts: result[0].outputs[0].data.concepts
+            urlImage: result.outputs[0].input.data.image.url,
+            concepts: result.outputs[0].data.concepts
           }
         };
         displayConcepts([apparel]);
-        incrementCounters(result[1]);
       });
   }
-  handleColorPictureSubmit(
-    userId,
-    pictureUrl,
-    type,
-    displayConcepts,
-    incrementCounters
-  ) {
-    Promise.all([
-      this.requester.post(pictureUrl, type),
-      this.requester.put(userId, type)
-    ])
-      .then(([colors, counters]) => {
-        return Promise.all([colors.json(), counters.json()]);
-      })
+  handleColorPictureSubmit(pictureUrl, type, displayConcepts) {
+    this.requester
+      .post(pictureUrl, type)
+      .then(colors => colors.json())
       .then(result => {
         const colors = {
           colors: {
-            urlImage: result[0].imageUrl,
-            colorsData: result[0].colors
+            urlImage: result.imageUrl,
+            colorsData: result.colors
           }
         };
         displayConcepts([colors]);
-        incrementCounters(result[1]);
       });
   }
   handleCounterSubmit(userId, pictureUrl, type) {

@@ -17,16 +17,15 @@ import {
 import { Route, Switch, Redirect } from "react-router-dom";
 import Profile from "./components/Profile/profile";
 import Footer from "./components/Footer/footer";
-import Submiter from "./services/Submiter";
 import Models from "./components/Models/models";
 import NotFound from "./components/NotFound/notFound";
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = initialState();
-    this.submiter = new Submiter();
+    this.submiter = props.submiter;
   }
 
   loadUser = data => {
@@ -66,10 +65,13 @@ class App extends Component {
   handleFoodPictureSubmit = () => {
     this.setState({ loading: true });
     this.submiter.handleFoodPictureSubmit(
-      this.state.user.id,
       this.state.input,
       "food",
-      this.displayConcepts.bind(this),
+      this.displayConcepts.bind(this)
+    );
+    this.submiter.handleIncrementCounters(
+      this.state.user.id,
+      "food",
       this.incrementCounters.bind(this)
     );
   };
@@ -77,10 +79,13 @@ class App extends Component {
   handleGeneralPictureSubmit = () => {
     this.setState({ loading: true });
     this.submiter.handleGeneralPictureSubmit(
-      this.state.user.id,
       this.state.input,
       "general",
-      this.displayConcepts.bind(this),
+      this.displayConcepts.bind(this)
+    );
+    this.submiter.handleIncrementCounters(
+      this.state.user.id,
+      "general",
       this.incrementCounters.bind(this)
     );
   };
@@ -88,22 +93,27 @@ class App extends Component {
   handleApparelPictureSubmit = () => {
     this.setState({ loading: true });
     this.submiter.handleApparelPictureSubmit(
-      this.state.user.id,
       this.state.input,
       "apparel",
-      this.displayConcepts.bind(this),
+      this.displayConcepts.bind(this)
+    );
+    this.submiter.handleIncrementCounters(
+      this.state.user.id,
+      "apparel",
       this.incrementCounters.bind(this)
     );
   };
 
   handleColorPictureSubmit = () => {
     this.setState({ loading: true });
-    this.setState({ loading: true });
     this.submiter.handleColorPictureSubmit(
-      this.state.user.id,
       this.state.input,
       "color",
-      this.displayConcepts.bind(this),
+      this.displayConcepts.bind(this)
+    );
+    this.submiter.handleIncrementCounters(
+      this.state.user.id,
+      "color",
       this.incrementCounters.bind(this)
     );
   };
@@ -111,10 +121,13 @@ class App extends Component {
   handleFacePictureSubmit = () => {
     this.setState({ loading: true, urlImage: this.state.input });
     this.submiter.handleFacePictureSubmit(
-      this.state.user.id,
       this.state.input,
       "face",
-      this.displayFaceBox.bind(this),
+      this.displayFaceBox.bind(this)
+    );
+    this.submiter.handleIncrementCounters(
+      this.state.user.id,
+      "face",
       this.incrementCounters.bind(this)
     );
   };
