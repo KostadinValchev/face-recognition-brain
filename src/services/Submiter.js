@@ -10,18 +10,34 @@ class Submiter {
         incrementCounters(result);
       });
   }
-  handleFacePictureSubmit(pictureUrl, type, displayFaceBox) {
+  handleFacePictureSubmit(pictureUrl, type, displayFaceBox, handleErrorModels) {
     this.requester
       .post(pictureUrl, type)
-      .then(faceBoxes => faceBoxes.json())
+      .then(faceBoxes => {
+        if (faceBoxes.status === 400)
+          throw new Error("Please pass valid image url");
+        else return faceBoxes.json();
+      })
       .then(result => {
         displayFaceBox(result);
+      })
+      .catch(error => {
+        handleErrorModels({ type, error });
       });
   }
-  handleFoodPictureSubmit(pictureUrl, type, displayConcepts) {
+  handleFoodPictureSubmit(
+    pictureUrl,
+    type,
+    displayConcepts,
+    handleErrorModels
+  ) {
     this.requester
       .post(pictureUrl, type)
-      .then(foodBoxes => foodBoxes.json())
+      .then(foodBoxes => {
+        if (foodBoxes.status === 400)
+          throw new Error("Please pass valid image url");
+        else return foodBoxes.json();
+      })
       .then(result => {
         const food = {
           food: {
@@ -30,12 +46,24 @@ class Submiter {
           }
         };
         displayConcepts([food]);
+      })
+      .catch(error => {
+        handleErrorModels({ type, error });
       });
   }
-  handleGeneralPictureSubmit(pictureUrl, type, displayConcepts) {
+  handleGeneralPictureSubmit(
+    pictureUrl,
+    type,
+    displayConcepts,
+    handleErrorModels
+  ) {
     this.requester
       .post(pictureUrl, type)
-      .then(general => general.json())
+      .then(general => {
+        if (general.status === 400)
+          throw new Error("Please pass valid image url");
+        else return general.json();
+      })
       .then(result => {
         const general = {
           general: {
@@ -44,12 +72,24 @@ class Submiter {
           }
         };
         displayConcepts([general]);
+      })
+      .catch(error => {
+        handleErrorModels({ type, error });
       });
   }
-  handleApparelPictureSubmit(pictureUrl, type, displayConcepts) {
+  handleApparelPictureSubmit(
+    pictureUrl,
+    type,
+    displayConcepts,
+    handleErrorModels
+  ) {
     this.requester
       .post(pictureUrl, type)
-      .then(apparel => apparel.json())
+      .then(apparel => {
+        if (apparel.status === 400)
+          throw new Error("Please pass valid image url");
+        else return apparel.json();
+      })
       .then(result => {
         const apparel = {
           apparel: {
@@ -58,12 +98,24 @@ class Submiter {
           }
         };
         displayConcepts([apparel]);
+      })
+      .catch(error => {
+        handleErrorModels({ type, error });
       });
   }
-  handleColorPictureSubmit(pictureUrl, type, displayConcepts) {
+  handleColorPictureSubmit(
+    pictureUrl,
+    type,
+    displayConcepts,
+    handleErrorModels
+  ) {
     this.requester
       .post(pictureUrl, type)
-      .then(colors => colors.json())
+      .then(colors => {
+        if (colors.status === 400)
+          throw new Error("Please pass valid image url");
+        else return colors.json();
+      })
       .then(result => {
         const colors = {
           colors: {
@@ -72,6 +124,9 @@ class Submiter {
           }
         };
         displayConcepts([colors]);
+      })
+      .catch(error => {
+        handleErrorModels({ type, error });
       });
   }
   handleCounterSubmit(userId, pictureUrl, type) {

@@ -10,6 +10,7 @@ const ApparelRecognition = ({
   title,
   urlImage,
   concepts,
+  errors,
   loading,
   onInputChange,
   onApparelPictureSubmit,
@@ -22,6 +23,7 @@ const ApparelRecognition = ({
           title={title}
           onInputChange={onInputChange}
           onPictureSubmit={onApparelPictureSubmit}
+          errors={errors}
           loading={loading}
         />
         <div className="food-data-container">

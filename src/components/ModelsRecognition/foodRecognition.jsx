@@ -10,11 +10,13 @@ const FoodRecognition = ({
   title,
   urlImage,
   concepts,
+  errors,
   loading,
   onInputChange,
   onFoodPictureSubmit,
   ...props
 }) => {
+  // console.log(error)
   if (userId) {
     return (
       <React.Fragment>
@@ -22,6 +24,7 @@ const FoodRecognition = ({
           title={title}
           onInputChange={onInputChange}
           onPictureSubmit={onFoodPictureSubmit}
+          errors={errors}
           loading={loading}
         />
         <div className="food-data-container">

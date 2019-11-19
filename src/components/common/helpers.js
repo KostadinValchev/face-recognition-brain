@@ -16,10 +16,11 @@ const initState = {
     colorEntries: 0,
     joined: ""
   },
-  food: { urlImage: "", concepts: [] },
-  apparel: { urlImage: "", concepts: [] },
-  general: { urlImage: "", concepts: [] },
-  colors: { urlImage: "", colorsData: [] },
+  face: { urlImage: "", concepts: [], error: "" },
+  food: { urlImage: "", concepts: [], error: "" },
+  apparel: { urlImage: "", concepts: [], error: "" },
+  general: { urlImage: "", concepts: [], error: "" },
+  colors: { urlImage: "", colorsData: [], error: "" },
   titles: {
     face: "Detect the presence and location of human faces with a bounding box",
     food: "Recognize food items and dishes, down to the ingredient level",

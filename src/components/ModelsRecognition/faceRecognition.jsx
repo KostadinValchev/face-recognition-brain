@@ -11,6 +11,7 @@ const FaceRecognition = ({
   entries,
   boxes,
   urlImage,
+  errors,
   loading,
   onInputChange,
   onPictureSubmit,
@@ -24,6 +25,7 @@ const FaceRecognition = ({
           onInputChange={onInputChange}
           onPictureSubmit={onPictureSubmit}
           title={title}
+          errors={errors}
           loading={loading}
         />
         <FacesRendering boxes={boxes} urlImage={urlImage} />

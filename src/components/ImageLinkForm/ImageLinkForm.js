@@ -1,10 +1,21 @@
 import React from "react";
 import "./ImageLinkForm.css";
 
-const ImageLinkForm = ({ title, onInputChange, onPictureSubmit, loading }) => {
+const ImageLinkForm = ({
+  title,
+  onInputChange,
+  onPictureSubmit,
+  errors,
+  loading
+}) => {
   return (
     <div>
       <p className="f3">{title}</p>
+      {errors && (
+        <div className="br2 pa1 ma1 red" style={{ fontSize: "x-large" }}>
+          {errors}
+        </div>
+      )}
       <div className="center">
         <div className="center form pa4 br3 shadow-5">
           <input

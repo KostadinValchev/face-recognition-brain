@@ -62,12 +62,20 @@ class App extends Component {
     this.setState({ input: event.target.value });
   };
 
+  handleErrorModels = ({ type, error }) => {
+    let data = { ...this.state[type] };
+    data.error = error.message;
+    console.log(error)
+    // this.setState({ loading: false, [type]: { ...data } });
+  };
+
   handleFoodPictureSubmit = () => {
     this.setState({ loading: true });
     this.submiter.handleFoodPictureSubmit(
       this.state.input,
       "food",
-      this.displayConcepts.bind(this)
+      this.displayConcepts.bind(this),
+      this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
@@ -81,7 +89,8 @@ class App extends Component {
     this.submiter.handleGeneralPictureSubmit(
       this.state.input,
       "general",
-      this.displayConcepts.bind(this)
+      this.displayConcepts.bind(this),
+      this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
@@ -95,7 +104,8 @@ class App extends Component {
     this.submiter.handleApparelPictureSubmit(
       this.state.input,
       "apparel",
-      this.displayConcepts.bind(this)
+      this.displayConcepts.bind(this),
+      this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
@@ -109,7 +119,8 @@ class App extends Component {
     this.submiter.handleColorPictureSubmit(
       this.state.input,
       "color",
-      this.displayConcepts.bind(this)
+      this.displayConcepts.bind(this),
+      this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
@@ -123,7 +134,8 @@ class App extends Component {
     this.submiter.handleFacePictureSubmit(
       this.state.input,
       "face",
-      this.displayFaceBox.bind(this)
+      this.displayFaceBox.bind(this),
+      this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
@@ -157,6 +169,7 @@ class App extends Component {
                 entries={this.state.user.entries}
                 boxes={boxes}
                 urlImage={urlImage}
+                errors={this.state.face.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onPictureSubmit={this.handleFacePictureSubmit}
@@ -172,6 +185,7 @@ class App extends Component {
                 title={titles.food}
                 urlImage={this.state.food.urlImage}
                 concepts={this.state.food.concepts}
+                errors={this.state.food.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onFoodPictureSubmit={this.handleFoodPictureSubmit}
@@ -187,6 +201,7 @@ class App extends Component {
                 title={titles.apparel}
                 urlImage={this.state.apparel.urlImage}
                 concepts={this.state.apparel.concepts}
+                errors={this.state.apparel.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onApparelPictureSubmit={this.handleApparelPictureSubmit}
@@ -202,6 +217,7 @@ class App extends Component {
                 title={titles.general}
                 urlImage={this.state.general.urlImage}
                 concepts={this.state.general.concepts}
+                errors={this.state.general.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onApparelPictureSubmit={this.handleGeneralPictureSubmit}
@@ -217,6 +233,7 @@ class App extends Component {
                 title={titles.color}
                 urlImage={this.state.colors.urlImage}
                 colors={this.state.colors.colorsData}
+                errors={this.state.colors.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onColorPictureSubmit={this.handleColorPictureSubmit}

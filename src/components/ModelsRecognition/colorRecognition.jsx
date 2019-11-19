@@ -10,6 +10,7 @@ const ColorRecognition = ({
   title,
   urlImage,
   colors,
+  errors,
   loading,
   onInputChange,
   onColorPictureSubmit,
@@ -22,6 +23,7 @@ const ColorRecognition = ({
           title={title}
           onInputChange={onInputChange}
           onPictureSubmit={onColorPictureSubmit}
+          errors={errors}
           loading={loading}
         />
         <div className="food-data-container">
