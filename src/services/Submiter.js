@@ -1,3 +1,5 @@
+import { errorModelsMessages } from './../components/common/constants';
+
 class Submiter {
   constructor(Requester) {
     this.requester = Requester;
@@ -15,7 +17,7 @@ class Submiter {
       .post(pictureUrl, type)
       .then(faceBoxes => {
         if (faceBoxes.status === 400)
-          throw new Error("Please pass valid image url");
+          throw new Error(errorModelsMessages.invalidUrlAddress);
         else return faceBoxes.json();
       })
       .then(result => {
@@ -35,7 +37,7 @@ class Submiter {
       .post(pictureUrl, type)
       .then(foodBoxes => {
         if (foodBoxes.status === 400)
-          throw new Error("Please pass valid image url");
+          throw new Error(errorModelsMessages.invalidUrlAddress);
         else return foodBoxes.json();
       })
       .then(result => {
@@ -61,7 +63,7 @@ class Submiter {
       .post(pictureUrl, type)
       .then(general => {
         if (general.status === 400)
-          throw new Error("Please pass valid image url");
+          throw new Error(errorModelsMessages.invalidUrlAddress);
         else return general.json();
       })
       .then(result => {
@@ -87,7 +89,7 @@ class Submiter {
       .post(pictureUrl, type)
       .then(apparel => {
         if (apparel.status === 400)
-          throw new Error("Please pass valid image url");
+          throw new Error(errorModelsMessages.invalidUrlAddress);
         else return apparel.json();
       })
       .then(result => {
@@ -103,7 +105,7 @@ class Submiter {
         handleErrorModels({ type, error });
       });
   }
-  handleColorPictureSubmit(
+  handleColorsPictureSubmit(
     pictureUrl,
     type,
     displayConcepts,
@@ -113,7 +115,7 @@ class Submiter {
       .post(pictureUrl, type)
       .then(colors => {
         if (colors.status === 400)
-          throw new Error("Please pass valid image url");
+          throw new Error(errorModelsMessages.invalidUrlAddress);
         else return colors.json();
       })
       .then(result => {

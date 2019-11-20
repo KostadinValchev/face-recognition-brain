@@ -19,6 +19,7 @@ import Profile from "./components/Profile/profile";
 import Footer from "./components/Footer/footer";
 import Models from "./components/Models/models";
 import NotFound from "./components/NotFound/notFound";
+import { modelsLabels, routing } from "./components/common/constants";
 import "./App.css";
 
 class App extends Component {
@@ -65,21 +66,20 @@ class App extends Component {
   handleErrorModels = ({ type, error }) => {
     let data = { ...this.state[type] };
     data.error = error.message;
-    console.log(error)
-    // this.setState({ loading: false, [type]: { ...data } });
+    this.setState({ loading: false, [type]: { ...data } });
   };
 
   handleFoodPictureSubmit = () => {
     this.setState({ loading: true });
     this.submiter.handleFoodPictureSubmit(
       this.state.input,
-      "food",
+      modelsLabels.food,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
-      "food",
+      modelsLabels.food,
       this.incrementCounters.bind(this)
     );
   };
@@ -88,13 +88,13 @@ class App extends Component {
     this.setState({ loading: true });
     this.submiter.handleGeneralPictureSubmit(
       this.state.input,
-      "general",
+      modelsLabels.general,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
-      "general",
+      modelsLabels.general,
       this.incrementCounters.bind(this)
     );
   };
@@ -103,28 +103,28 @@ class App extends Component {
     this.setState({ loading: true });
     this.submiter.handleApparelPictureSubmit(
       this.state.input,
-      "apparel",
+      modelsLabels.apparel,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
-      "apparel",
+      modelsLabels.apparel,
       this.incrementCounters.bind(this)
     );
   };
 
   handleColorPictureSubmit = () => {
     this.setState({ loading: true });
-    this.submiter.handleColorPictureSubmit(
+    this.submiter.handleColorsPictureSubmit(
       this.state.input,
-      "color",
+      modelsLabels.colors,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
-      "color",
+      modelsLabels.colors,
       this.incrementCounters.bind(this)
     );
   };
@@ -133,21 +133,21 @@ class App extends Component {
     this.setState({ loading: true, urlImage: this.state.input });
     this.submiter.handleFacePictureSubmit(
       this.state.input,
-      "face",
+      modelsLabels.face,
       this.displayFaceBox.bind(this),
       this.handleErrorModels.bind(this)
     );
     this.submiter.handleIncrementCounters(
       this.state.user.id,
-      "face",
+      modelsLabels.face,
       this.incrementCounters.bind(this)
     );
   };
 
   onRouteChange = route => {
-    if (route === "signout") {
+    if (route === routing.signout) {
       this.setState(initialState);
-    } else if (route === "home") {
+    } else if (route === routing.home) {
       this.setState({ isSignIn: true });
     }
     this.setState({ route: route });

@@ -3,7 +3,7 @@ export const servicesUrls = {
   food: "http://localhost:3000/food",
   general: "http://localhost:3000/general",
   apparel: "http://localhost:3000/apparel",
-  color: "http://localhost:3000/color"
+  colors: "http://localhost:3000/color"
 };
 
 export const countersUrls = {
@@ -46,6 +46,19 @@ export const accountData = {
   loginLabel: "Login"
 };
 
+export const modelsLabels = {
+  food: "food",
+  general: "general",
+  apparel: "apparel",
+  colors: "colors",
+  face: "face"
+};
+
+export const routing = {
+  home: "home",
+  signout: "signout"
+};
+
 export const accountReqMessages = {
   email: "Email is required",
   name: "Name is required",
@@ -65,3 +78,7 @@ export const navigateTo = {
 
 export const inputClassName =
   "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100";
+
+export const errorModelsMessages = {
+  invalidUrlAddress: "Please pass valid image url"
+};
