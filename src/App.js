@@ -77,11 +77,12 @@ class App extends Component {
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.submiter.handleIncrementCounters(
-      this.state.user.id,
-      modelsLabels.food,
-      this.incrementCounters.bind(this)
-    );
+    this.state.input !== "" &&
+      this.submiter.handleIncrementCounters(
+        this.state.user.id,
+        modelsLabels.food,
+        this.incrementCounters.bind(this)
+      );
   };
 
   handleGeneralPictureSubmit = () => {
@@ -92,11 +93,12 @@ class App extends Component {
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.submiter.handleIncrementCounters(
-      this.state.user.id,
-      modelsLabels.general,
-      this.incrementCounters.bind(this)
-    );
+    this.state.input !== "" &&
+      this.submiter.handleIncrementCounters(
+        this.state.user.id,
+        modelsLabels.general,
+        this.incrementCounters.bind(this)
+      );
   };
 
   handleApparelPictureSubmit = () => {
@@ -107,11 +109,12 @@ class App extends Component {
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.submiter.handleIncrementCounters(
-      this.state.user.id,
-      modelsLabels.apparel,
-      this.incrementCounters.bind(this)
-    );
+    this.state.input !== "" &&
+      this.submiter.handleIncrementCounters(
+        this.state.user.id,
+        modelsLabels.apparel,
+        this.incrementCounters.bind(this)
+      );
   };
 
   handleColorPictureSubmit = () => {
@@ -122,11 +125,12 @@ class App extends Component {
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.submiter.handleIncrementCounters(
-      this.state.user.id,
-      modelsLabels.colors,
-      this.incrementCounters.bind(this)
-    );
+    this.state.input !== "" &&
+      this.submiter.handleIncrementCounters(
+        this.state.user.id,
+        modelsLabels.colors,
+        this.incrementCounters.bind(this)
+      );
   };
 
   handleFacePictureSubmit = () => {
@@ -137,11 +141,12 @@ class App extends Component {
       this.displayFaceBox.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.submiter.handleIncrementCounters(
-      this.state.user.id,
-      modelsLabels.face,
-      this.incrementCounters.bind(this)
-    );
+    this.state.input !== "" &&
+      this.submiter.handleIncrementCounters(
+        this.state.user.id,
+        modelsLabels.face,
+        this.incrementCounters.bind(this)
+      );
   };
 
   onRouteChange = route => {
