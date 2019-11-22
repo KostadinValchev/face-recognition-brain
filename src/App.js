@@ -70,14 +70,15 @@ class App extends Component {
   };
 
   handleFoodPictureSubmit = () => {
-    this.setState({ loading: true });
+    const imgUrl = this.state.input;
+    this.setState({ loading: true, input: "" });
     this.submiter.handleFoodPictureSubmit(
-      this.state.input,
+      imgUrl,
       modelsLabels.food,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.state.input !== "" &&
+    imgUrl !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.food,
@@ -86,14 +87,15 @@ class App extends Component {
   };
 
   handleGeneralPictureSubmit = () => {
-    this.setState({ loading: true });
+    const imgUrl = this.state.input;
+    this.setState({ loading: true, input: "" });
     this.submiter.handleGeneralPictureSubmit(
-      this.state.input,
+      imgUrl,
       modelsLabels.general,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.state.input !== "" &&
+    imgUrl !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.general,
@@ -102,14 +104,15 @@ class App extends Component {
   };
 
   handleApparelPictureSubmit = () => {
-    this.setState({ loading: true });
+    const imgUrl = this.state.input;
+    this.setState({ loading: true, input: "" });
     this.submiter.handleApparelPictureSubmit(
-      this.state.input,
+      imgUrl,
       modelsLabels.apparel,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.state.input !== "" &&
+    imgUrl !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.apparel,
@@ -118,14 +121,15 @@ class App extends Component {
   };
 
   handleColorPictureSubmit = () => {
-    this.setState({ loading: true });
+    const imgUrl = this.state.input;
+    this.setState({ loading: true, input: "" });
     this.submiter.handleColorsPictureSubmit(
-      this.state.input,
+      imgUrl,
       modelsLabels.colors,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.state.input !== "" &&
+    imgUrl !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.colors,
@@ -134,14 +138,15 @@ class App extends Component {
   };
 
   handleFacePictureSubmit = () => {
-    this.setState({ loading: true, urlImage: this.state.input });
+    const urlImage = this.state.input;
+    this.setState({ loading: true, urlImage, input: "" });
     this.submiter.handleFacePictureSubmit(
-      this.state.input,
+      urlImage,
       modelsLabels.face,
       this.displayFaceBox.bind(this),
       this.handleErrorModels.bind(this)
     );
-    this.state.input !== "" &&
+    urlImage !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.face,

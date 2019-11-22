@@ -16,7 +16,6 @@ const FoodRecognition = ({
   onFoodPictureSubmit,
   ...props
 }) => {
-  // console.log(error)
   if (userId) {
     return (
       <React.Fragment>
