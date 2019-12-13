@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Input from "./input";
 import Field from "./field";
+import Button from "./button";
 import Submiter from "./Submiter";
 import { accountActions, statusType } from "../common/constants";
 import { statusMessages } from "./FormsConstants";
@@ -122,15 +123,14 @@ class Form extends Component {
     const classes = "b ph3 pv2 input-reset ba b--black grow pointer f6 dib";
     const { loading } = this.state;
     return (
-      <input
-        onClick={
+      <Button
+        value={label}
+        className={loading ? classes : classes + " bg-transparent"}
+        action={
           action === accountActions.login
             ? e => this.submit(e, accountActions.login)
             : e => this.submit(e, accountActions.register)
         }
-        className={loading ? classes : classes + " bg-transparent"}
-        type="button"
-        value={label}
         disabled={loading}
       />
     );

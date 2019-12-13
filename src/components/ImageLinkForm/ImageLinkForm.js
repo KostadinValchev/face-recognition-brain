@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../Forms/button";
 import "./ImageLinkForm.css";
 
 const ImageLinkForm = ({
@@ -24,13 +25,12 @@ const ImageLinkForm = ({
             placeholder="Put image url"
             onChange={onInputChange}
           />
-          <button
-            onClick={onPictureSubmit}
+          <Button
+            value="Detect"
             className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
-            disabled={loading}
-          >
-            Detect
-          </button>
+            action={onPictureSubmit}
+            loading={loading}
+          />
         </div>
       </div>
     </div>

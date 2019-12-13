@@ -20,3 +20,8 @@ export const headers = {
   second: `The Application is built around a simple idea. You send inputs
   (an image url) to the service and it returns predictions`
 };
+
+export const buttonStyles = {
+  default:
+    "b ph3 pv2 input-reset ba b--black grow pointer f6 dib bg-transparent"
+};

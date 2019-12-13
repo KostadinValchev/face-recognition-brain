@@ -1,5 +1,6 @@
 import React from "react";
-import { headers } from "./constants";
+import Button from "./../Forms/button";
+import { headers, buttonStyles } from "./constants";
 
 const Introduction = ({ userId, props }) => {
   return (
@@ -11,19 +12,17 @@ const Introduction = ({ userId, props }) => {
           {!userId && (
             <div className="homebtn-container">
               <div className="home-btn">
-                <input
-                  onClick={() => props.history.push("/login")}
-                  className="b ph3 pv2 input-reset ba b--black grow pointer f6 dib bg-transparent"
-                  type="button"
+                <Button
                   value="Sign In"
+                  className={buttonStyles.default}
+                  action={() => props.history.push("/login")}
                 />
               </div>
               <div className="home-btn">
-                <input
-                  onClick={() => props.history.push("/register")}
-                  className="b ph3 pv2 input-reset ba b--black grow pointer f6 dib bg-transparent"
-                  type="button"
+                <Button
                   value="Register"
+                  className={buttonStyles.default}
+                  action={() => props.history.push("/register")}
                 />
               </div>
             </div>
