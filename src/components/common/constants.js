@@ -3,7 +3,7 @@ export const servicesUrls = {
   food: "http://localhost:3000/food",
   general: "http://localhost:3000/general",
   apparel: "http://localhost:3000/apparel",
-  colors: "http://localhost:3000/color"
+  color: "http://localhost:3000/color"
 };
 
 export const countersUrls = {
@@ -50,7 +50,7 @@ export const modelsLabels = {
   food: "food",
   general: "general",
   apparel: "apparel",
-  colors: "colors",
+  color: "color",
   face: "face"
 };
 

@@ -31,7 +31,6 @@ class Form extends Component {
   };
 
   handleChange = ({ currentTarget: input }) => {
-    // Prevent Default ????
     const errors = inputFieldChangeValidations(this.state.errors, input);
     const account = { ...this.state.account };
     account[input.name] = input.value;

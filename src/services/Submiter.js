@@ -1,4 +1,4 @@
-import { errorModelsMessages } from './../components/common/constants';
+import { errorModelsMessages } from "./../components/common/constants";
 
 class Submiter {
   constructor(Requester) {
@@ -12,9 +12,15 @@ class Submiter {
         incrementCounters(result);
       });
   }
-  handleFacePictureSubmit(pictureUrl, type, displayFaceBox, handleErrorModels) {
+  handleFacePictureSubmit(
+    image,
+    viaBytes,
+    type,
+    displayFaceBox,
+    handleErrorModels
+  ) {
     this.requester
-      .post(pictureUrl, type)
+      .post(image, type, viaBytes)
       .then(faceBoxes => {
         if (faceBoxes.status === 400)
           throw new Error(errorModelsMessages.invalidUrlAddress);
@@ -29,12 +35,13 @@ class Submiter {
   }
   handleFoodPictureSubmit(
     pictureUrl,
+    viaBytes,
     type,
     displayConcepts,
     handleErrorModels
   ) {
     this.requester
-      .post(pictureUrl, type)
+      .post(pictureUrl, type, viaBytes)
       .then(foodBoxes => {
         if (foodBoxes.status === 400)
           throw new Error(errorModelsMessages.invalidUrlAddress);
@@ -43,7 +50,7 @@ class Submiter {
       .then(result => {
         const food = {
           food: {
-            urlImage: result.outputs[0].input.data.image.url,
+            urlImage: !viaBytes && result.outputs[0].input.data.image.url,
             concepts: result.outputs[0].data.concepts
           }
         };
@@ -54,13 +61,14 @@ class Submiter {
       });
   }
   handleGeneralPictureSubmit(
-    pictureUrl,
+    image,
+    viaBytes,
     type,
     displayConcepts,
     handleErrorModels
   ) {
     this.requester
-      .post(pictureUrl, type)
+      .post(image, type, viaBytes)
       .then(general => {
         if (general.status === 400)
           throw new Error(errorModelsMessages.invalidUrlAddress);
@@ -69,7 +77,7 @@ class Submiter {
       .then(result => {
         const general = {
           general: {
-            urlImage: result.outputs[0].input.data.image.url,
+            urlImage: !viaBytes && result.outputs[0].input.data.image.url,
             concepts: result.outputs[0].data.concepts
           }
         };
@@ -80,13 +88,14 @@ class Submiter {
       });
   }
   handleApparelPictureSubmit(
-    pictureUrl,
+    image,
+    viaBytes,
     type,
     displayConcepts,
     handleErrorModels
   ) {
     this.requester
-      .post(pictureUrl, type)
+      .post(image, type, viaBytes)
       .then(apparel => {
         if (apparel.status === 400)
           throw new Error(errorModelsMessages.invalidUrlAddress);
@@ -95,7 +104,7 @@ class Submiter {
       .then(result => {
         const apparel = {
           apparel: {
-            urlImage: result.outputs[0].input.data.image.url,
+            urlImage: !viaBytes && result.outputs[0].input.data.image.url,
             concepts: result.outputs[0].data.concepts
           }
         };
@@ -106,13 +115,14 @@ class Submiter {
       });
   }
   handleColorsPictureSubmit(
-    pictureUrl,
+    image,
+    viaBytes,
     type,
     displayConcepts,
     handleErrorModels
   ) {
     this.requester
-      .post(pictureUrl, type)
+      .post(image, type, viaBytes)
       .then(colors => {
         if (colors.status === 400)
           throw new Error(errorModelsMessages.invalidUrlAddress);
@@ -121,7 +131,7 @@ class Submiter {
       .then(result => {
         const colors = {
           colors: {
-            urlImage: result.imageUrl,
+            urlImage: !viaBytes && result.imageUrl,
             colorsData: result.colors
           }
         };

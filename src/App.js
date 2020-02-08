@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import HomePage from "./components/Home/homePage";
 import Particles from "react-particles-js";
 import Navigation from "./components/Navigation/Navigation";
-import FaceRecognition from "./components/ModelsRecognition/faceRecognition";
-import FoodRecognition from "./components/ModelsRecognition/foodRecognition";
-import ApparelRecognition from "./components/ModelsRecognition/apparelRecognition";
-import GeneralRecognition from "./components/ModelsRecognition/generalRecognition";
-import ColorRecognition from "./components/ModelsRecognition/colorRecognition";
+import ModelRecognition from "./components/ModelRecognition/modelRecognition";
 import RegisterForm from "./components/Forms/registerForm";
 import LoginForm from "./components/Forms/loginForm";
 import {
@@ -19,6 +15,7 @@ import Profile from "./components/Profile/profile";
 import Footer from "./components/Footer/footer";
 import Models from "./components/Models/models";
 import NotFound from "./components/NotFound/notFound";
+import { toBase64 } from "./components/common/fileConverter";
 import { modelsLabels, routing } from "./components/common/constants";
 import "./App.css";
 
@@ -60,6 +57,7 @@ class App extends Component {
   };
 
   onInputChange = event => {
+    event.preventDefault();
     this.setState({ input: event.target.value });
   };
 
@@ -69,16 +67,18 @@ class App extends Component {
     this.setState({ loading: false, [type]: { ...data } });
   };
 
-  handleFoodPictureSubmit = () => {
-    const imgUrl = this.state.input;
-    this.setState({ loading: true, input: "" });
+  handleFoodPictureSubmit = event => {
+    const { input, viaBytes } = this.state;
+    const image = viaBytes ? this.state.base64 : input;
+    this.setState({ loading: true, input: "", viaBytes: false });
     this.submiter.handleFoodPictureSubmit(
-      imgUrl,
+      image,
+      viaBytes,
       modelsLabels.food,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    imgUrl !== "" &&
+    image !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.food,
@@ -86,16 +86,18 @@ class App extends Component {
       );
   };
 
-  handleGeneralPictureSubmit = () => {
-    const imgUrl = this.state.input;
-    this.setState({ loading: true, input: "" });
+  handleGeneralPictureSubmit = event => {
+    const { input, viaBytes, base64 } = this.state;
+    const image = viaBytes ? base64 : input;
+    this.setState({ loading: true, input: "", viaBytes: false });
     this.submiter.handleGeneralPictureSubmit(
-      imgUrl,
+      image,
+      viaBytes,
       modelsLabels.general,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    imgUrl !== "" &&
+    image !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.general,
@@ -103,16 +105,18 @@ class App extends Component {
       );
   };
 
-  handleApparelPictureSubmit = () => {
-    const imgUrl = this.state.input;
-    this.setState({ loading: true, input: "" });
+  handleApparelPictureSubmit = event => {
+    const { input, viaBytes, base64 } = this.state;
+    const image = viaBytes ? base64 : input;
+    this.setState({ loading: true, input: "", viaBytes: false });
     this.submiter.handleApparelPictureSubmit(
-      imgUrl,
+      image,
+      viaBytes,
       modelsLabels.apparel,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    imgUrl !== "" &&
+    image !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.apparel,
@@ -120,16 +124,18 @@ class App extends Component {
       );
   };
 
-  handleColorPictureSubmit = () => {
-    const imgUrl = this.state.input;
-    this.setState({ loading: true, input: "" });
+  handleColorPictureSubmit = event => {
+    const { input, viaBytes, base64 } = this.state;
+    const image = viaBytes ? base64 : input;
+    this.setState({ loading: true, input: "", viaBytes: false });
     this.submiter.handleColorsPictureSubmit(
-      imgUrl,
-      modelsLabels.colors,
+      image,
+      viaBytes,
+      modelsLabels.color,
       this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
-    imgUrl !== "" &&
+    image !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.colors,
@@ -137,16 +143,30 @@ class App extends Component {
       );
   };
 
-  handleFacePictureSubmit = () => {
-    const urlImage = this.state.input;
-    this.setState({ loading: true, urlImage, input: "" });
+  uploadFileHandler = event => {
+    event.preventDefault();
+    toBase64(event.target.files[0])
+      .then(result =>
+        this.setState({
+          viaBytes: true,
+          base64: result
+        })
+      )
+      .catch(err => console.log(err));
+  };
+
+  handleFacePictureSubmit = event => {
+    const { input, viaBytes, base64 } = this.state;
+    const image = viaBytes ? base64 : input;
+    this.setState({ loading: true, image, input: "", viaBytes: false });
     this.submiter.handleFacePictureSubmit(
-      urlImage,
+      image,
+      base64,
       modelsLabels.face,
       this.displayFaceBox.bind(this),
       this.handleErrorModels.bind(this)
     );
-    urlImage !== "" &&
+    image !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
         modelsLabels.face,
@@ -173,15 +193,22 @@ class App extends Component {
           <Route
             path="/face"
             render={props => (
-              <FaceRecognition
+              <ModelRecognition
                 name={this.state.user.name}
+                userId={this.state.user.id}
                 title={titles.face}
                 entries={this.state.user.entries}
                 boxes={boxes}
-                urlImage={urlImage}
+                image={
+                  this.state.general.urlImage
+                    ? urlImage
+                    : this.state.base64
+                }
+                isFaceConcept={true}
                 errors={this.state.face.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
+                onUploadFileHandler={this.uploadFileHandler}
                 onPictureSubmit={this.handleFacePictureSubmit}
                 {...props}
               />
@@ -190,15 +217,20 @@ class App extends Component {
           <Route
             path="/food"
             render={props => (
-              <FoodRecognition
+              <ModelRecognition
                 userId={this.state.user.id}
                 title={titles.food}
-                urlImage={this.state.food.urlImage}
+                image={
+                  this.state.food.urlImage
+                    ? this.state.food.urlImage
+                    : this.state.base64
+                }
                 concepts={this.state.food.concepts}
                 errors={this.state.food.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
-                onFoodPictureSubmit={this.handleFoodPictureSubmit}
+                onUploadFileHandler={this.uploadFileHandler}
+                onPictureSubmit={this.handleFoodPictureSubmit}
                 {...props}
               />
             )}
@@ -206,15 +238,20 @@ class App extends Component {
           <Route
             path="/apparel"
             render={props => (
-              <ApparelRecognition
+              <ModelRecognition
                 userId={this.state.user.id}
                 title={titles.apparel}
-                urlImage={this.state.apparel.urlImage}
+                image={
+                  this.state.apparel.urlImage
+                    ? this.state.apparel.urlImage
+                    : this.state.base64
+                }
                 concepts={this.state.apparel.concepts}
                 errors={this.state.apparel.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
-                onApparelPictureSubmit={this.handleApparelPictureSubmit}
+                onUploadFileHandler={this.uploadFileHandler}
+                onPictureSubmit={this.handleApparelPictureSubmit}
                 {...props}
               />
             )}
@@ -222,15 +259,20 @@ class App extends Component {
           <Route
             path="/general"
             render={props => (
-              <GeneralRecognition
+              <ModelRecognition
                 userId={this.state.user.id}
                 title={titles.general}
-                urlImage={this.state.general.urlImage}
+                image={
+                  this.state.general.urlImage
+                    ? this.state.general.urlImage
+                    : this.state.base64
+                }
                 concepts={this.state.general.concepts}
                 errors={this.state.general.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
-                onApparelPictureSubmit={this.handleGeneralPictureSubmit}
+                onUploadFileHandler={this.uploadFileHandler}
+                onPictureSubmit={this.handleGeneralPictureSubmit}
                 {...props}
               />
             )}
@@ -238,15 +280,21 @@ class App extends Component {
           <Route
             path="/color"
             render={props => (
-              <ColorRecognition
+              <ModelRecognition
                 userId={this.state.user.id}
                 title={titles.color}
-                urlImage={this.state.colors.urlImage}
-                colors={this.state.colors.colorsData}
+                image={
+                  this.state.colors.urlImage
+                    ? this.state.colors.urlImage
+                    : this.state.base64
+                }
+                isColorConcept={true}
+                concepts={this.state.colors.colorsData}
                 errors={this.state.colors.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
-                onColorPictureSubmit={this.handleColorPictureSubmit}
+                onUploadFileHandler={this.uploadFileHandler}
+                onPictureSubmit={this.handleColorPictureSubmit}
                 {...props}
               />
             )}

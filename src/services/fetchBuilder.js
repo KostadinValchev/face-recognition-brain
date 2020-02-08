@@ -1,11 +1,12 @@
 import { fetchHeaders } from "../components/common/constants";
 
-export function imageBuilder(pictureUrl, action) {
+export function imageBuilder(image, action, viaBytes) {
   return {
     method: action,
     headers: fetchHeaders,
     body: JSON.stringify({
-      input: pictureUrl
+      input: image,
+      viaBytes: viaBytes
     })
   };
 }

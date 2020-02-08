@@ -2,10 +2,10 @@ import { servicesUrls, requestActions, countersUrls } from "../components/common
 import { imageBuilder, counterBuilder } from "./fetchBuilder";
 
 class Requester {
-  post(pictureUrl, type) {
+  post(image, type, viaBytes) {
     return fetch(
       servicesUrls[type],
-      imageBuilder(pictureUrl, requestActions.post)
+      imageBuilder(image, requestActions.post, viaBytes)
     );
   }
 

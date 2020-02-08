@@ -4,6 +4,8 @@ const initState = {
   boxes: [],
   route: "signin",
   isSignIn: false,
+  base64: "",
+  viaBytes: false,
   user: {
     id: "",
     name: "",

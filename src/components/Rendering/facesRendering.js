@@ -25,7 +25,7 @@ class FacesRendering extends Component {
         <div className="absolute mt2">
           <img
             id="inputimage"
-            src={this.props.urlImage}
+            src={this.props.image}
             alt=""
             width="500px"
             height="auto"
