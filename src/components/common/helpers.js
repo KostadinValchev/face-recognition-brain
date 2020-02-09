@@ -18,11 +18,11 @@ const initState = {
     colorEntries: 0,
     joined: ""
   },
-  face: { urlImage: "", concepts: [], error: "" },
+  face: { image: "", boxes: [], error: "" },
   food: { urlImage: "", concepts: [], error: "" },
   apparel: { urlImage: "", concepts: [], error: "" },
   general: { urlImage: "", concepts: [], error: "" },
-  colors: { urlImage: "", colorsData: [], error: "" },
+  color: { urlImage: "", concepts: [], error: "" },
   titles: {
     face: "Detect the presence and location of human faces with a bounding box",
     food: "Recognize food items and dishes, down to the ingredient level",
@@ -90,4 +90,22 @@ export function calculateFaceLocation(data) {
     faceBoxes.push(result);
   }
   return faceBoxes;
+}
+
+export function responseObjectProcessing(res, type, viaBytes) {
+  if (type === "color") {
+    return {
+      [type]: {
+        urlImage: !viaBytes && res.image,
+        concepts: res.colors
+      }
+    };
+  } else {
+    return {
+      [type]: {
+        urlImage: !viaBytes && res.outputs[0].input.data.image.url,
+        concepts: res.outputs[0].data.concepts
+      }
+    };
+  }
 }

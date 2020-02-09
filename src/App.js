@@ -16,7 +16,7 @@ import Footer from "./components/Footer/footer";
 import Models from "./components/Models/models";
 import NotFound from "./components/NotFound/notFound";
 import { toBase64 } from "./components/common/fileConverter";
-import { modelsLabels, routing } from "./components/common/constants";
+import { routing } from "./components/common/constants";
 import "./App.css";
 
 class App extends Component {
@@ -43,9 +43,10 @@ class App extends Component {
     });
   };
 
-  displayFaceBox = boxes => {
+  displayFaceBox = (boxes, image) => {
     const calculatedBoxes = calculateFaceLocation(boxes);
-    this.setState({ loading: false, boxes: calculatedBoxes });
+    const face = { boxes: calculatedBoxes, image: image };
+    this.setState({ loading: false, face });
   };
 
   displayConcepts = concepts => {
@@ -67,78 +68,29 @@ class App extends Component {
     this.setState({ loading: false, [type]: { ...data } });
   };
 
-  handleFoodPictureSubmit = event => {
-    const { input, viaBytes } = this.state;
-    const image = viaBytes ? this.state.base64 : input;
-    this.setState({ loading: true, input: "", viaBytes: false });
-    this.submiter.handleFoodPictureSubmit(
-      image,
-      viaBytes,
-      modelsLabels.food,
-      this.displayConcepts.bind(this),
-      this.handleErrorModels.bind(this)
-    );
-    image !== "" &&
-      this.submiter.handleIncrementCounters(
-        this.state.user.id,
-        modelsLabels.food,
-        this.incrementCounters.bind(this)
-      );
-  };
-
-  handleGeneralPictureSubmit = event => {
+  handlePictureSubmit = event => {
+    const modelType = event.props.match.path.substring(1);
     const { input, viaBytes, base64 } = this.state;
     const image = viaBytes ? base64 : input;
-    this.setState({ loading: true, input: "", viaBytes: false });
-    this.submiter.handleGeneralPictureSubmit(
+    this.setState({
+      loading: true,
+      input: "",
+      urlImage: image,
+      viaBytes: false
+    });
+    this.submiter.handlePictureSubmit(
       image,
       viaBytes,
-      modelsLabels.general,
-      this.displayConcepts.bind(this),
+      modelType,
+      modelType === "face"
+        ? this.displayFaceBox.bind(this)
+        : this.displayConcepts.bind(this),
       this.handleErrorModels.bind(this)
     );
     image !== "" &&
       this.submiter.handleIncrementCounters(
         this.state.user.id,
-        modelsLabels.general,
-        this.incrementCounters.bind(this)
-      );
-  };
-
-  handleApparelPictureSubmit = event => {
-    const { input, viaBytes, base64 } = this.state;
-    const image = viaBytes ? base64 : input;
-    this.setState({ loading: true, input: "", viaBytes: false });
-    this.submiter.handleApparelPictureSubmit(
-      image,
-      viaBytes,
-      modelsLabels.apparel,
-      this.displayConcepts.bind(this),
-      this.handleErrorModels.bind(this)
-    );
-    image !== "" &&
-      this.submiter.handleIncrementCounters(
-        this.state.user.id,
-        modelsLabels.apparel,
-        this.incrementCounters.bind(this)
-      );
-  };
-
-  handleColorPictureSubmit = event => {
-    const { input, viaBytes, base64 } = this.state;
-    const image = viaBytes ? base64 : input;
-    this.setState({ loading: true, input: "", viaBytes: false });
-    this.submiter.handleColorsPictureSubmit(
-      image,
-      viaBytes,
-      modelsLabels.color,
-      this.displayConcepts.bind(this),
-      this.handleErrorModels.bind(this)
-    );
-    image !== "" &&
-      this.submiter.handleIncrementCounters(
-        this.state.user.id,
-        modelsLabels.colors,
+        modelType,
         this.incrementCounters.bind(this)
       );
   };
@@ -155,25 +107,6 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
-  handleFacePictureSubmit = event => {
-    const { input, viaBytes, base64 } = this.state;
-    const image = viaBytes ? base64 : input;
-    this.setState({ loading: true, image, input: "", viaBytes: false });
-    this.submiter.handleFacePictureSubmit(
-      image,
-      base64,
-      modelsLabels.face,
-      this.displayFaceBox.bind(this),
-      this.handleErrorModels.bind(this)
-    );
-    image !== "" &&
-      this.submiter.handleIncrementCounters(
-        this.state.user.id,
-        modelsLabels.face,
-        this.incrementCounters.bind(this)
-      );
-  };
-
   onRouteChange = route => {
     if (route === routing.signout) {
       this.setState(initialState);
@@ -184,7 +117,7 @@ class App extends Component {
   };
 
   render() {
-    const { isSignIn, boxes, urlImage, loading, titles } = this.state;
+    const { isSignIn, urlImage, loading, titles } = this.state;
     return (
       <div className="App">
         <Particles className="particles" params={getParticlesOptions()} />
@@ -198,18 +131,14 @@ class App extends Component {
                 userId={this.state.user.id}
                 title={titles.face}
                 entries={this.state.user.entries}
-                boxes={boxes}
-                image={
-                  this.state.general.urlImage
-                    ? urlImage
-                    : this.state.base64
-                }
+                boxes={this.state.face.boxes}
+                image={urlImage ? urlImage : this.state.base64}
                 isFaceConcept={true}
                 errors={this.state.face.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handleFacePictureSubmit}
+                onPictureSubmit={this.handlePictureSubmit}
                 {...props}
               />
             )}
@@ -230,7 +159,7 @@ class App extends Component {
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handleFoodPictureSubmit}
+                onPictureSubmit={this.handlePictureSubmit}
                 {...props}
               />
             )}
@@ -251,7 +180,7 @@ class App extends Component {
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handleApparelPictureSubmit}
+                onPictureSubmit={this.handlePictureSubmit}
                 {...props}
               />
             )}
@@ -272,7 +201,7 @@ class App extends Component {
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handleGeneralPictureSubmit}
+                onPictureSubmit={this.handlePictureSubmit}
                 {...props}
               />
             )}
@@ -284,17 +213,17 @@ class App extends Component {
                 userId={this.state.user.id}
                 title={titles.color}
                 image={
-                  this.state.colors.urlImage
-                    ? this.state.colors.urlImage
+                  this.state.color.urlImage
+                    ? this.state.color.urlImage
                     : this.state.base64
                 }
                 isColorConcept={true}
-                concepts={this.state.colors.colorsData}
-                errors={this.state.colors.error}
+                concepts={this.state.color.concepts}
+                errors={this.state.color.error}
                 loading={loading}
                 onInputChange={this.onInputChange}
                 onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handleColorPictureSubmit}
+                onPictureSubmit={this.handlePictureSubmit}
                 {...props}
               />
             )}

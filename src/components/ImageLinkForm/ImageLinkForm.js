@@ -8,7 +8,8 @@ const ImageLinkForm = ({
   onUploadFileHandler,
   onPictureSubmit,
   errors,
-  loading
+  loading,
+  ...props
 }) => {
   return (
     <div>
@@ -34,7 +35,7 @@ const ImageLinkForm = ({
           <Button
             value="Detect"
             className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
-            action={onPictureSubmit}
+            action={() => onPictureSubmit(props)}
             loading={loading}
           />
         </div>
@@ -44,7 +45,6 @@ const ImageLinkForm = ({
 };
 
 export default ImageLinkForm;
-
 
 // uploadFileHandler
 

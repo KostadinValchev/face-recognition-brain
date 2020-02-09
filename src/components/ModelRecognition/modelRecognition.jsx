@@ -36,6 +36,7 @@ const ModelRecognition = ({
           onPictureSubmit={onPictureSubmit}
           errors={errors}
           loading={loading}
+          props={props}
         />
         {isFaceConcept ? (
           <FacesRendering boxes={boxes} image={image} />

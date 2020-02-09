@@ -1,4 +1,5 @@
 import { errorModelsMessages } from "./../components/common/constants";
+import { responseObjectProcessing } from "./../components/common/helpers";
 
 class Submiter {
   constructor(Requester) {
@@ -12,55 +13,7 @@ class Submiter {
         incrementCounters(result);
       });
   }
-  handleFacePictureSubmit(
-    image,
-    viaBytes,
-    type,
-    displayFaceBox,
-    handleErrorModels
-  ) {
-    this.requester
-      .post(image, type, viaBytes)
-      .then(faceBoxes => {
-        if (faceBoxes.status === 400)
-          throw new Error(errorModelsMessages.invalidUrlAddress);
-        else return faceBoxes.json();
-      })
-      .then(result => {
-        displayFaceBox(result);
-      })
-      .catch(error => {
-        handleErrorModels({ type, error });
-      });
-  }
-  handleFoodPictureSubmit(
-    pictureUrl,
-    viaBytes,
-    type,
-    displayConcepts,
-    handleErrorModels
-  ) {
-    this.requester
-      .post(pictureUrl, type, viaBytes)
-      .then(foodBoxes => {
-        if (foodBoxes.status === 400)
-          throw new Error(errorModelsMessages.invalidUrlAddress);
-        else return foodBoxes.json();
-      })
-      .then(result => {
-        const food = {
-          food: {
-            urlImage: !viaBytes && result.outputs[0].input.data.image.url,
-            concepts: result.outputs[0].data.concepts
-          }
-        };
-        displayConcepts([food]);
-      })
-      .catch(error => {
-        handleErrorModels({ type, error });
-      });
-  }
-  handleGeneralPictureSubmit(
+  handlePictureSubmit(
     image,
     viaBytes,
     type,
@@ -69,73 +22,16 @@ class Submiter {
   ) {
     this.requester
       .post(image, type, viaBytes)
-      .then(general => {
-        if (general.status === 400)
+      .then(res => {
+        if (res.status === 400)
           throw new Error(errorModelsMessages.invalidUrlAddress);
-        else return general.json();
+        else return res.json();
       })
       .then(result => {
-        const general = {
-          general: {
-            urlImage: !viaBytes && result.outputs[0].input.data.image.url,
-            concepts: result.outputs[0].data.concepts
-          }
-        };
-        displayConcepts([general]);
-      })
-      .catch(error => {
-        handleErrorModels({ type, error });
-      });
-  }
-  handleApparelPictureSubmit(
-    image,
-    viaBytes,
-    type,
-    displayConcepts,
-    handleErrorModels
-  ) {
-    this.requester
-      .post(image, type, viaBytes)
-      .then(apparel => {
-        if (apparel.status === 400)
-          throw new Error(errorModelsMessages.invalidUrlAddress);
-        else return apparel.json();
-      })
-      .then(result => {
-        const apparel = {
-          apparel: {
-            urlImage: !viaBytes && result.outputs[0].input.data.image.url,
-            concepts: result.outputs[0].data.concepts
-          }
-        };
-        displayConcepts([apparel]);
-      })
-      .catch(error => {
-        handleErrorModels({ type, error });
-      });
-  }
-  handleColorsPictureSubmit(
-    image,
-    viaBytes,
-    type,
-    displayConcepts,
-    handleErrorModels
-  ) {
-    this.requester
-      .post(image, type, viaBytes)
-      .then(colors => {
-        if (colors.status === 400)
-          throw new Error(errorModelsMessages.invalidUrlAddress);
-        else return colors.json();
-      })
-      .then(result => {
-        const colors = {
-          colors: {
-            urlImage: !viaBytes && result.imageUrl,
-            colorsData: result.colors
-          }
-        };
-        displayConcepts([colors]);
+        const model = responseObjectProcessing(result, type, viaBytes);
+        type === "face"
+          ? displayConcepts(result, image)
+          : displayConcepts([{ ...model }]);
       })
       .catch(error => {
         handleErrorModels({ type, error });
