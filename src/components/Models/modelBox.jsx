@@ -1,6 +1,9 @@
 import React from "react";
 import Tilt from "react-tilt";
 import { Link } from "react-router-dom";
+import Image from "react-async-image";
+
+import "./modelBox.styles.css";
 
 const ModelBox = ({ type, path, img }) => {
   return (
@@ -13,10 +16,9 @@ const ModelBox = ({ type, path, img }) => {
           style={{ height: 250, width: 250 }}
         >
           <div className="Tilt-inner pa3">
-            <img
-              rel="preload"
-              style={{ paddingTop: "5px" }}
-              alt="brain logo"
+            <Image
+              className="image"
+              placeholder={<div className="placeholder">oops</div>}
               src={img}
             />
           </div>

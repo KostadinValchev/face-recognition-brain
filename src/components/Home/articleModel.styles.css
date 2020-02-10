@@ -1,0 +1,15 @@
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border-radius: 45px;
+  object-fit: contain;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.image-loading {
+  opacity: 0;
+  transition: none;
+}

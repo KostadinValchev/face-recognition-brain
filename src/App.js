@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import HomePage from "./components/Home/homePage";
 import Particles from "react-particles-js";
 import Navigation from "./components/Navigation/Navigation";
@@ -12,12 +12,13 @@ import {
 } from "./components/common/helpers";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Profile from "./components/Profile/profile";
-import Footer from "./components/Footer/footer";
+// import Footer from "./components/Footer/footer";
 import Models from "./components/Models/models";
 import NotFound from "./components/NotFound/notFound";
 import { toBase64 } from "./components/common/fileConverter";
 import { routing } from "./components/common/constants";
 import "./App.css";
+const Footer = lazy(() => import("./components/Footer/footer"));
 
 class App extends Component {
   constructor(props) {
@@ -120,156 +121,161 @@ class App extends Component {
     const { isSignIn, urlImage, loading, titles } = this.state;
     return (
       <div className="App">
-        <Particles className="particles" params={getParticlesOptions()} />
-        <Navigation isSignedIn={isSignIn} onRouteChange={this.onRouteChange} />
-        <Switch>
-          <Route
-            path="/face"
-            render={props => (
-              <ModelRecognition
-                name={this.state.user.name}
-                userId={this.state.user.id}
-                title={titles.face}
-                entries={this.state.user.entries}
-                boxes={this.state.face.boxes}
-                image={urlImage ? urlImage : this.state.base64}
-                isFaceConcept={true}
-                errors={this.state.face.error}
-                loading={loading}
-                onInputChange={this.onInputChange}
-                onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handlePictureSubmit}
-                {...props}
-              />
-            )}
+        <Suspense fallback={<div>Loading...</div>}>
+          <Particles className="particles" params={getParticlesOptions()} />
+          <Navigation
+            isSignedIn={isSignIn}
+            onRouteChange={this.onRouteChange}
           />
-          <Route
-            path="/food"
-            render={props => (
-              <ModelRecognition
-                userId={this.state.user.id}
-                title={titles.food}
-                image={
-                  this.state.food.urlImage
-                    ? this.state.food.urlImage
-                    : this.state.base64
-                }
-                concepts={this.state.food.concepts}
-                errors={this.state.food.error}
-                loading={loading}
-                onInputChange={this.onInputChange}
-                onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handlePictureSubmit}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path="/apparel"
-            render={props => (
-              <ModelRecognition
-                userId={this.state.user.id}
-                title={titles.apparel}
-                image={
-                  this.state.apparel.urlImage
-                    ? this.state.apparel.urlImage
-                    : this.state.base64
-                }
-                concepts={this.state.apparel.concepts}
-                errors={this.state.apparel.error}
-                loading={loading}
-                onInputChange={this.onInputChange}
-                onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handlePictureSubmit}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path="/general"
-            render={props => (
-              <ModelRecognition
-                userId={this.state.user.id}
-                title={titles.general}
-                image={
-                  this.state.general.urlImage
-                    ? this.state.general.urlImage
-                    : this.state.base64
-                }
-                concepts={this.state.general.concepts}
-                errors={this.state.general.error}
-                loading={loading}
-                onInputChange={this.onInputChange}
-                onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handlePictureSubmit}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path="/color"
-            render={props => (
-              <ModelRecognition
-                userId={this.state.user.id}
-                title={titles.color}
-                image={
-                  this.state.color.urlImage
-                    ? this.state.color.urlImage
-                    : this.state.base64
-                }
-                isColorConcept={true}
-                concepts={this.state.color.concepts}
-                errors={this.state.color.error}
-                loading={loading}
-                onInputChange={this.onInputChange}
-                onUploadFileHandler={this.uploadFileHandler}
-                onPictureSubmit={this.handlePictureSubmit}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path="/profile"
-            render={props => (
-              <Profile
-                userId={this.state.user.id}
-                user={this.state.user}
-                {...props}
-              />
-            )}
-          />
-          <Route path="/models" component={Models} />
-          <Route
-            path="/register"
-            render={props => (
-              <RegisterForm
-                loadUser={this.loadUser}
-                onRouteChange={this.onRouteChange}
-                {...props}
-              />
-            )}
-          />
-          <Route path="/not-found" component={NotFound} />
-          <Route
-            path="/login"
-            render={props => (
-              <LoginForm
-                loadUser={this.loadUser}
-                onRouteChange={this.onRouteChange}
-                {...props}
-              />
-            )}
-          />
-          <Route
-            path="/"
-            exact
-            render={props => (
-              <HomePage userId={this.state.user.id} {...props} />
-            )}
-          />
-          <Redirect to="/not-found" />
-        </Switch>
-        <Footer />
+          <Switch>
+            <Route
+              path="/face"
+              render={props => (
+                <ModelRecognition
+                  name={this.state.user.name}
+                  userId={this.state.user.id}
+                  title={titles.face}
+                  entries={this.state.user.entries}
+                  boxes={this.state.face.boxes}
+                  image={urlImage ? urlImage : this.state.base64}
+                  isFaceConcept={true}
+                  errors={this.state.face.error}
+                  loading={loading}
+                  onInputChange={this.onInputChange}
+                  onUploadFileHandler={this.uploadFileHandler}
+                  onPictureSubmit={this.handlePictureSubmit}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path="/food"
+              render={props => (
+                <ModelRecognition
+                  userId={this.state.user.id}
+                  title={titles.food}
+                  image={
+                    this.state.food.urlImage
+                      ? this.state.food.urlImage
+                      : this.state.base64
+                  }
+                  concepts={this.state.food.concepts}
+                  errors={this.state.food.error}
+                  loading={loading}
+                  onInputChange={this.onInputChange}
+                  onUploadFileHandler={this.uploadFileHandler}
+                  onPictureSubmit={this.handlePictureSubmit}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path="/apparel"
+              render={props => (
+                <ModelRecognition
+                  userId={this.state.user.id}
+                  title={titles.apparel}
+                  image={
+                    this.state.apparel.urlImage
+                      ? this.state.apparel.urlImage
+                      : this.state.base64
+                  }
+                  concepts={this.state.apparel.concepts}
+                  errors={this.state.apparel.error}
+                  loading={loading}
+                  onInputChange={this.onInputChange}
+                  onUploadFileHandler={this.uploadFileHandler}
+                  onPictureSubmit={this.handlePictureSubmit}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path="/general"
+              render={props => (
+                <ModelRecognition
+                  userId={this.state.user.id}
+                  title={titles.general}
+                  image={
+                    this.state.general.urlImage
+                      ? this.state.general.urlImage
+                      : this.state.base64
+                  }
+                  concepts={this.state.general.concepts}
+                  errors={this.state.general.error}
+                  loading={loading}
+                  onInputChange={this.onInputChange}
+                  onUploadFileHandler={this.uploadFileHandler}
+                  onPictureSubmit={this.handlePictureSubmit}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path="/color"
+              render={props => (
+                <ModelRecognition
+                  userId={this.state.user.id}
+                  title={titles.color}
+                  image={
+                    this.state.color.urlImage
+                      ? this.state.color.urlImage
+                      : this.state.base64
+                  }
+                  isColorConcept={true}
+                  concepts={this.state.color.concepts}
+                  errors={this.state.color.error}
+                  loading={loading}
+                  onInputChange={this.onInputChange}
+                  onUploadFileHandler={this.uploadFileHandler}
+                  onPictureSubmit={this.handlePictureSubmit}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path="/profile"
+              render={props => (
+                <Profile
+                  userId={this.state.user.id}
+                  user={this.state.user}
+                  {...props}
+                />
+              )}
+            />
+            <Route path="/models" component={Models} />
+            <Route
+              path="/register"
+              render={props => (
+                <RegisterForm
+                  loadUser={this.loadUser}
+                  onRouteChange={this.onRouteChange}
+                  {...props}
+                />
+              )}
+            />
+            <Route path="/not-found" component={NotFound} />
+            <Route
+              path="/login"
+              render={props => (
+                <LoginForm
+                  loadUser={this.loadUser}
+                  onRouteChange={this.onRouteChange}
+                  {...props}
+                />
+              )}
+            />
+            <Route
+              path="/"
+              exact
+              render={props => (
+                <HomePage userId={this.state.user.id} {...props} />
+              )}
+            />
+            <Redirect to="/not-found" />
+          </Switch>
+          <Footer />
+        </Suspense>
       </div>
     );
   }

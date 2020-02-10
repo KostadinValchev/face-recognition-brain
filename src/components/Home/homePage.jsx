@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import Introduction from './introduction';
-import ArticleModel from "./articleModel";
+import React, { Component, lazy, Suspense } from "react";
+// import ArticleModel from "./articleModel";
 import Button from './../Forms/button';
 import face_home_image from "./images/homePage_face_image.png";
 import food_image from "./images/homePage_food_image.jpg";
@@ -9,12 +8,16 @@ import general_image from "./images/homePage_general_image.jpg";
 import color_image from "./images/homePage_color_image.jpg";
 import { modelsContents, buttonStyles } from "./constants";
 import { Route } from "react-router-dom";
+
 import "./homePage.css";
+
+const ArticleModel = lazy(() => import("./articleModel"));
+const Introduction = lazy(() => import("./introduction"));
 
 class HomePage extends Component {
   render() {
     return (
-      <React.Fragment>
+      <Suspense fallback={<div>Loading...</div>}>
         <Route render={() => <Introduction userId={this.props.userId} props={this.props}/>} />
         <section className="mw8 center">
           <h2 className="athelas ph3 ph0-l">Models</h2>
@@ -30,7 +33,7 @@ class HomePage extends Component {
             action={() => this.props.history.push("/models")}/>
           </div>
         </section>
-      </React.Fragment>
+      </Suspense>
     );
   }
 }

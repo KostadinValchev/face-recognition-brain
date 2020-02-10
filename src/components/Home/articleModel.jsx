@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "react-async-image";
+
 
 const ArticleModel = ({ content, img, direction }) => {
   const style = direction ? "flex-row-ns" : "flex-row-reverse-ns";
@@ -10,10 +12,9 @@ const ArticleModel = ({ content, img, direction }) => {
           <p className="f5 f4-l lh-copy athelas">{content}</p>
         </div>
         <div className="pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-80-ns">
-          <img
-            rel="preload"
-            style={{ paddingTop: "5px" }}
-            alt="brain logo"
+          <Image
+            className="image"
+            placeholder={<div className="placeholder">oops</div>}
             src={img}
           />
         </div>
