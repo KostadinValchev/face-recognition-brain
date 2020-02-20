@@ -12,7 +12,6 @@ import {
 } from "./components/common/helpers";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Profile from "./components/Profile/profile";
-// import Footer from "./components/Footer/footer";
 import Models from "./components/Models/models";
 import NotFound from "./components/NotFound/notFound";
 import { toBase64 } from "./components/common/fileConverter";
@@ -25,9 +24,22 @@ class App extends Component {
     super(props);
     this.state = initialState();
     this.submiter = props.submiter;
+    this.cookies = props.cookies;
+  }
+  
+  componentWillMount() {
+    let user = this.cookies.get("user");
+    if(user) this.loadUser(user)
+    this.onRouteChange("home");
+
   }
 
   loadUser = data => {
+    let user = this.cookies.get("user");
+    if (!user) {
+      this.cookies.set("user", JSON.stringify(data), { expired: 3600 });
+    }
+     
     this.setState({
       user: {
         id: data.id,
@@ -119,6 +131,7 @@ class App extends Component {
 
   render() {
     const { isSignIn, urlImage, loading, titles } = this.state;
+    console.log(this.state)
     return (
       <div className="App">
         <Suspense fallback={<div>Loading...</div>}>

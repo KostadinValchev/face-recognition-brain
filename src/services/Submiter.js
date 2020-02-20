@@ -5,6 +5,7 @@ class Submiter {
   constructor(Requester) {
     this.requester = Requester;
   }
+
   handleIncrementCounters(userId, type, incrementCounters) {
     this.requester
       .put(userId, type)
@@ -13,6 +14,7 @@ class Submiter {
         incrementCounters(result);
       });
   }
+
   handlePictureSubmit(
     image,
     viaBytes,
@@ -37,9 +39,15 @@ class Submiter {
         handleErrorModels({ type, error });
       });
   }
+
+  handleProfile(userId) {
+    
+  }
+
   handleCounterSubmit(userId, pictureUrl, type) {
     this.requester.put(pictureUrl, userId, type);
   }
+
 }
 
 export default Submiter;

@@ -7,10 +7,13 @@ import "tachyons";
 import * as serviceWorker from "./serviceWorker";
 import Submiter from './services/Submiter';
 import Requester from './services/requester';
+import Cookies from 'universal-cookie';
 
 const submiter = new Submiter(new Requester());
+const cookies = new Cookies();
 const props = {
-  submiter
+  submiter,
+  cookies
 }
 ReactDOM.render(
   <BrowserRouter>
