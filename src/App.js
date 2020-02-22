@@ -26,20 +26,23 @@ class App extends Component {
     this.submiter = props.submiter;
     this.cookies = props.cookies;
   }
-  
+
   componentWillMount() {
     let user = this.cookies.get("user");
-    if(user) this.loadUser(user)
-    this.onRouteChange("home");
-
+    if (user) {
+      this.submiter.takeProfileData(user, "profile", this.loadUser.bind(this));
+      this.onRouteChange("home");
+    }
   }
 
   loadUser = data => {
     let user = this.cookies.get("user");
     if (!user) {
-      this.cookies.set("user", JSON.stringify(data), { expired: 3600 });
+      this.cookies.set("user", JSON.stringify(data.id), {
+        expires: new Date(Date.now() + 2592000)
+      });
     }
-     
+
     this.setState({
       user: {
         id: data.id,
@@ -123,6 +126,7 @@ class App extends Component {
   onRouteChange = route => {
     if (route === routing.signout) {
       this.setState(initialState);
+      this.cookies.remove("user");
     } else if (route === routing.home) {
       this.setState({ isSignIn: true });
     }
@@ -131,7 +135,6 @@ class App extends Component {
 
   render() {
     const { isSignIn, urlImage, loading, titles } = this.state;
-    console.log(this.state)
     return (
       <div className="App">
         <Suspense fallback={<div>Loading...</div>}>

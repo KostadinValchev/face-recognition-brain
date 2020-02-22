@@ -40,14 +40,16 @@ class Submiter {
       });
   }
 
-  handleProfile(userId) {
-    
+  takeProfileData(userId, type, loadUser) {
+    this.requester
+      .get(userId, type)
+      .then(res => res.json())
+      .then(loadUser);
   }
 
   handleCounterSubmit(userId, pictureUrl, type) {
     this.requester.put(pictureUrl, userId, type);
   }
-
 }
 
 export default Submiter;

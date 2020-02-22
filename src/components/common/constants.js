@@ -1,4 +1,5 @@
 export const servicesUrls = {
+  profile: "http://localhost:3000/profile/",
   face: "http://localhost:3000/imageurl",
   food: "http://localhost:3000/food",
   general: "http://localhost:3000/general",

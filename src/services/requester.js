@@ -1,7 +1,14 @@
-import { servicesUrls, requestActions, countersUrls } from "../components/common/constants";
+import {
+  servicesUrls,
+  requestActions,
+  countersUrls
+} from "../components/common/constants";
 import { imageBuilder, counterBuilder } from "./fetchBuilder";
 
 class Requester {
+  get(userId, type) {
+    return fetch(servicesUrls[type] + userId);
+  }
   post(image, type, viaBytes) {
     return fetch(
       servicesUrls[type],
