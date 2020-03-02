@@ -53,6 +53,9 @@ class LoginForm extends Form {
                 )}
               </div>
             </div>
+            <div>
+            {this.renderFacebookBtn()}
+            </div>
             <div className="lh-copy mt3">
               <p
                 onClick={() => onRouteChange(accountActions.register)}

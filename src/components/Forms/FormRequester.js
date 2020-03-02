@@ -2,7 +2,9 @@ import { fetchHelper } from "./fetchBuilder";
 import { requestActions } from "./FormsConstants";
 
 class FormRequester {
-  get() {}
+  get(url, account, type) {
+    return fetch(url, fetchHelper(requestActions.get, type, account));
+  }
   post(url, account, type) {
     return fetch(url, fetchHelper(requestActions.post, type, account));
   }

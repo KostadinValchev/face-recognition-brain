@@ -28,7 +28,9 @@ export const accountActions = {
   register: "register",
   login: "login",
   profile: "profile",
-  reset: "reset"
+  reset: "reset",
+  getFacebookProfile: "getFacebookProfile",
+  facebook: "facebook"
 };
 
 export const accountData = {

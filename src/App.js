@@ -16,6 +16,7 @@ import Models from "./components/Models/models";
 import NotFound from "./components/NotFound/notFound";
 import { toBase64 } from "./components/common/fileConverter";
 import { routing } from "./components/common/constants";
+import { logoutFacebookUser } from "./components/common/facebookUtils";
 import "./App.css";
 const Footer = lazy(() => import("./components/Footer/footer"));
 
@@ -126,6 +127,7 @@ class App extends Component {
   onRouteChange = route => {
     if (route === routing.signout) {
       this.setState(initialState);
+      window.FB && logoutFacebookUser();
       this.cookies.remove("user");
     } else if (route === routing.home) {
       this.setState({ isSignIn: true });

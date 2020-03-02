@@ -10,6 +10,7 @@ import {
   inputFieldChangeValidations,
   checkIfPasswordIsChanged
 } from "../common/validations";
+import FacebookBtn from "./facebook";
 
 class Form extends Component {
   constructor(props) {
@@ -82,6 +83,13 @@ class Form extends Component {
     }
   };
 
+  handleFacebookSignIn = user => {
+    this.props.loadUser(user);
+    this.setState({ loading: false });
+    this.props.onRouteChange("home");
+    this.props.history.push("/");
+  };
+
   submit = (e, type) => {
     e.preventDefault();
     const account = this.state.account;
@@ -131,6 +139,32 @@ class Form extends Component {
             : e => this.submit(e, accountActions.register)
         }
         disabled={loading}
+      />
+    );
+  };
+
+  responseFacebook = response => {
+    if (response.email) {
+      const account = {
+        userid: response.userID,
+        name: response.name,
+        email: response.email,
+        picture: response.picture
+      };
+      this.submiter.handleFacebookProfile(
+        account,
+        this.handleFacebookSignIn.bind(this),
+        accountActions.getFacebookProfile
+      );
+      this.setState({ loading: true });
+    }
+  };
+
+  renderFacebookBtn = () => {
+    return (
+      <FacebookBtn
+        componentClicked={this.componentClicked}
+        responseFacebook={this.responseFacebook}
       />
     );
   };
