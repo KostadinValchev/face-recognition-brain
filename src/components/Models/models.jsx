@@ -1,11 +1,7 @@
 import React, { lazy, Suspense } from "react";
 
+import {food, faces, apparel, general, colors } from "./constants";
 import ModelBox from "./modelBox";
-import food from "./food.png";
-import faces from "./faces.png";
-import apparel from "./apparel.png";
-import general from "./general.png";
-import colors from "./colors.png";
 import ScrollToTopOnMount from "../common/scrollToTopOnMount";
 
 const ModelsDescription = lazy(() => import("./modelsDescription"));

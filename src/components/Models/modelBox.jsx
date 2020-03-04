@@ -19,6 +19,7 @@ const ModelBox = ({ type, path, img }) => {
             <Image
               className="image"
               placeholder={<div className="placeholder">oops</div>}
+              loading="lazy"
               src={img}
             />
           </div>

@@ -15,6 +15,7 @@ const ArticleModel = ({ content, img, direction }) => {
           <Image
             className="image"
             placeholder={<div className="placeholder">oops</div>}
+            loading="lazy"
             src={img}
           />
         </div>

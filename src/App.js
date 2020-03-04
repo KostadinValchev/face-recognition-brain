@@ -29,6 +29,7 @@ class App extends Component {
   }
 
   componentWillMount() {
+    
     let user = this.cookies.get("user");
     if (user) {
       this.submiter.takeProfileData(user, "profile", this.loadUser.bind(this));

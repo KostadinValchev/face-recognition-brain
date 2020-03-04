@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "react-async-image";
-import what_are_models from "./what_are_models.png";
+import { what_are_models } from "./constants";
 import { getModelsTitle } from "./../common/helpers";
 
 const ModelsDescription = () => {
