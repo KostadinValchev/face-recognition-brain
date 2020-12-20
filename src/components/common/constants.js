@@ -1,18 +1,18 @@
 export const servicesUrls = {
-  profile: "http://localhost:3000/profile/",
-  face: "http://localhost:3000/imageurl",
-  food: "http://localhost:3000/food",
-  general: "http://localhost:3000/general",
-  apparel: "http://localhost:3000/apparel",
-  color: "http://localhost:3000/color"
+  profile: "http://localhost:3000/users/profile/",
+  face: "http://localhost:3000/face-recognition/increase-entries",
+  food: "http://localhost:3000/food-recognition/food",
+  general: "http://localhost:3000/general-recognition/general",
+  apparel: "http://localhost:3000/apparel-recognition/apparel",
+  color: "http://localhost:3000/color-recognition/color",
 };
 
 export const countersUrls = {
-  face: "http://localhost:3000/image",
-  food: "http://localhost:3000/foodimage",
-  general: "http://localhost:3000/generalimage",
-  apparel: "http://localhost:3000/apparelimage",
-  color: "http://localhost:3000/colorimage"
+  face: "http://localhost:3000/face-recognition/image",
+  food: "http://localhost:3000/food-recognition/increase-entries",
+  general: "http://localhost:3000/general-recognition/increase-entries",
+  apparel: "http://localhost:3000/apparel-recognition/increase-entries",
+  color: "http://localhost:3000/color-recognition/increase-entries",
 };
 
 export const fetchHeaders = { "Content-type": "application/json" };
@@ -21,7 +21,7 @@ export const requestActions = {
   get: "get",
   post: "post",
   put: "put",
-  delete: "delete"
+  delete: "delete",
 };
 
 export const accountActions = {
@@ -30,7 +30,7 @@ export const accountActions = {
   profile: "profile",
   reset: "reset",
   getFacebookProfile: "getFacebookProfile",
-  facebook: "facebook"
+  facebook: "facebook",
 };
 
 export const accountData = {
@@ -46,7 +46,7 @@ export const accountData = {
   newPasswordLabel: "New password",
   confirmPasswordLabel: "Confirm password",
   registerLabel: "Register",
-  loginLabel: "Login"
+  loginLabel: "Login",
 };
 
 export const modelsLabels = {
@@ -54,12 +54,12 @@ export const modelsLabels = {
   general: "general",
   apparel: "apparel",
   color: "color",
-  face: "face"
+  face: "face",
 };
 
 export const routing = {
   home: "home",
-  signout: "signout"
+  signout: "signout",
 };
 
 export const accountReqMessages = {
@@ -67,21 +67,21 @@ export const accountReqMessages = {
   name: "Name is required",
   password: "Password is required",
   newPassword: "New password is required",
-  confirmPassword: "Confirm password is required"
+  confirmPassword: "Confirm password is required",
 };
 
 export const statusType = {
   success: "success",
-  failure: "failure"
+  failure: "failure",
 };
 
 export const navigateTo = {
-  home: "home"
+  home: "home",
 };
 
 export const inputClassName =
   "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100";
 
 export const errorModelsMessages = {
-  invalidUrlAddress: "Please pass valid image url"
+  invalidUrlAddress: "Please pass valid image url",
 };
